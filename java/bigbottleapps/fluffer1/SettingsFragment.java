@@ -10,14 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-/**
- * Created by mikhail on 11.08.17.
- */
 
 public class SettingsFragment extends Fragment {
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_LOE = "loe";
-    public static final String APP_PREFERENCES_PASSWORD = "password";
     private SharedPreferences mSettings;
 
     @Nullable

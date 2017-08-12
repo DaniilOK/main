@@ -58,14 +58,6 @@ public class NewActionFragment extends Fragment implements View.OnClickListener{
         View view = inflater.inflate(R.layout.new_action, container, false);
         InitializeUI(view);
         Uri path = Uri.parse("content://com.android.providers.media.documents/document/image%3A101");
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), path);
-            bitmap.setDensity(0);
-            mImageView.setImageBitmap(bitmap);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         return view;
     }
 
@@ -88,7 +80,6 @@ public class NewActionFragment extends Fragment implements View.OnClickListener{
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==IMG_REQUEST && resultCode == getActivity().RESULT_OK && data != null){
             Uri path = data.getData();
-            Log.d("key2", path.toString());
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), path);
                 bitmap.setDensity(0);
@@ -107,7 +98,6 @@ public class NewActionFragment extends Fragment implements View.OnClickListener{
         mUploadBn = (Button) view.findViewById(R.id.uploadBn);
         Button mChooseBn = (Button) view.findViewById(R.id.chooseBn);
         mImageView = (ImageView) view.findViewById(R.id.imageView);
-
         mTitle = (EditText)view.findViewById(R.id.action_title);
         mChooseBn.setOnClickListener(this);
         mUploadBn.setOnClickListener(this);

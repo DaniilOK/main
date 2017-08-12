@@ -1,14 +1,12 @@
 package bigbottleapps.fluffer1;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 public class RegisterOrLogInActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES = "users";

@@ -9,10 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-/**
- * Created by mikhail on 12.08.17.
- */
-
 public class RefreshFragment2 extends Fragment {
     @Nullable
     @Override
