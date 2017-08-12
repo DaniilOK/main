@@ -49,8 +49,9 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
         super.onStart();
         listItems.clear();
         new SELECT().execute();
-        if (adapter != null)
+        if (adapter != null) {
             adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
