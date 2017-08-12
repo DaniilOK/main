@@ -58,6 +58,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener{
         View view = inflater.inflate(R.layout.new_action, container, false);
         InitializeUI(view);
         Uri path = Uri.parse("content://com.android.providers.media.documents/document/image%3A101");
+        mImageView.setImageDrawable(getResources().getDrawable(R.drawable.add_news));
         return view;
     }
 
