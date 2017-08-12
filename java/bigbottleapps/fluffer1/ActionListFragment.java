@@ -39,7 +39,6 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
     private HttpURLConnection conn;
     private String answer;
     private int res;
-    private Activity activity;
     private RecyclerView recyclerView;
     private MyAdapter adapter;
     private List<RecyclerItem> listItems;
@@ -49,7 +48,6 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
     public void onStart() {
         super.onStart();
         listItems.clear();
-        activity = getActivity();
         new SELECT().execute();
         if (adapter != null)
             adapter.notifyDataSetChanged();
@@ -66,7 +64,6 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_action_list, container, false);
         UIInitialization(view);
-
         return view;
     }
 
