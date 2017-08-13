@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_LOGGED = "logged";
     SharedPreferences mSettings;
-    BottomNavigationView navigation;
+    public BottomNavigationView navigation;
 
     @Override
     protected void onStart() {
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         if((mSettings!=null)&&(mSettings.contains(APP_PREFERENCES_LOGGED)))
             if (mSettings.getString(APP_PREFERENCES_LOGGED, "action_list").equals("action_list"))
                 navigation.setSelectedItemId(R.id.navigation_home);
-                setActionList();
+                //setActionList();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

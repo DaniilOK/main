@@ -91,7 +91,7 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new SELECT().execute();
+                        new ActionListFragment.SELECT().execute();
                     }
                 });
                 e.printStackTrace();

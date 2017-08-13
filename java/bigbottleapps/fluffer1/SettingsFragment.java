@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import bigbottleapps.fluffer1.R;
+
 
 public class SettingsFragment extends Fragment {
     public static final String APP_PREFERENCES = "users";

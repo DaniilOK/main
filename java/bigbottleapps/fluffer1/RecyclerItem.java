@@ -1,6 +1,6 @@
 package bigbottleapps.fluffer1;
 
-class RecyclerItem {
+public class RecyclerItem {
 
     private String title;
     private String description;
@@ -10,7 +10,7 @@ class RecyclerItem {
     private Integer progress;
 
 
-    RecyclerItem(String title, int likes, int dislikes, String image, String description) {
+    public RecyclerItem(String title, int likes, int dislikes, String image, String description) {
         this.title = title;
         this.likes = likes;
         this.dislikes = dislikes;

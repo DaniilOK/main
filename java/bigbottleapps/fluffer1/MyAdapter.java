@@ -18,12 +18,12 @@ import java.net.URL;
 import java.util.List;
 
 
-class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    private List<RecyclerItem> listItems;
-    private Context mContext;
+    public List<RecyclerItem> listItems;
+    public Context mContext;
 
-    MyAdapter(List<RecyclerItem> listItems, Context mContext) {
+    public MyAdapter(List<RecyclerItem> listItems, Context mContext) {
         this.listItems = listItems;
         this.mContext = mContext;
     }
