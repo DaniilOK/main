@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1;
+package bigbottleapps.fluffer1.Models;
 
 public class RecyclerItem {
 

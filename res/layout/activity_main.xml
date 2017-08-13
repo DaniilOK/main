@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="bigbottleapps.fluffer1.MainActivity">
+    tools:context="bigbottleapps.fluffer1.Controllers.MainActivity">
 
     <FrameLayout
         android:id="@+id/content_frame"

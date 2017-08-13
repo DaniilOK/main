@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1;
+package bigbottleapps.fluffer1.Fragments.MainActivityFragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,6 +21,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import bigbottleapps.fluffer1.Models.MyAdapter;
+import bigbottleapps.fluffer1.R;
+import bigbottleapps.fluffer1.Models.RecyclerItem;
 
 
 public class ActionListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {

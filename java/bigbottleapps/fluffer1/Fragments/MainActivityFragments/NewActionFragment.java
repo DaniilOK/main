@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1;
+package bigbottleapps.fluffer1.Fragments.MainActivityFragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -44,6 +44,10 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import bigbottleapps.fluffer1.Controllers.MainActivity;
+import bigbottleapps.fluffer1.R;
+import bigbottleapps.fluffer1.Controllers.RegisterOrLogInActivity;
+
 
 public class NewActionFragment extends Fragment implements View.OnClickListener {
     private Button mUploadBn;
@@ -66,7 +70,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.new_action, container, false);
+        View view = inflater.inflate(R.layout.new_action_activity, container, false);
         InitializeUI(view);
         Log.d("pipi", "s");
         adding();

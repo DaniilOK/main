@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1;
+package bigbottleapps.fluffer1.Controllers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,6 +7,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+
+import bigbottleapps.fluffer1.Fragments.RegisterOrLogInActivityFragments.LogInFragment;
+import bigbottleapps.fluffer1.Fragments.RegisterOrLogInActivityFragments.RegistrationFragment;
+import bigbottleapps.fluffer1.R;
 
 public class RegisterOrLogInActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES = "users";

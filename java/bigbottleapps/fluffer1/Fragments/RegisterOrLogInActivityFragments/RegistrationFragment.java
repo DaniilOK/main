@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1;
+package bigbottleapps.fluffer1.Fragments.RegisterOrLogInActivityFragments;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -22,6 +22,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import bigbottleapps.fluffer1.R;
+import bigbottleapps.fluffer1.Controllers.RegisterOrLogInActivity;
 
 public class RegistrationFragment extends Fragment {
 

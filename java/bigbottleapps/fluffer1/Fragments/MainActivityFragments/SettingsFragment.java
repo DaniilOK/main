@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1;
+package bigbottleapps.fluffer1.Fragments.MainActivityFragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1;
+package bigbottleapps.fluffer1.Controllers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,6 +10,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
+import bigbottleapps.fluffer1.Fragments.MainActivityFragments.ActionListFragment;
+import bigbottleapps.fluffer1.Fragments.MainActivityFragments.NewActionFragment;
+import bigbottleapps.fluffer1.Fragments.MainActivityFragments.RefreshFragment;
+import bigbottleapps.fluffer1.Fragments.MainActivityFragments.RefreshFragment2;
+import bigbottleapps.fluffer1.Fragments.MainActivityFragments.SettingsFragment;
+import bigbottleapps.fluffer1.R;
 
 public class MainActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES = "users";

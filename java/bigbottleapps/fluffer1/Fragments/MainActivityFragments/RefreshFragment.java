@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1;
+package bigbottleapps.fluffer1.Fragments.MainActivityFragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import bigbottleapps.fluffer1.Controllers.MainActivity;
+import bigbottleapps.fluffer1.R;
 
 
 public class RefreshFragment extends Fragment {
