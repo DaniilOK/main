@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fluffer 1</string>
+    <string name="app_name">Fluffer</string>
     <string name="title_home">Home</string>
     <string name="title_map">Map </string>
     <string name="title_add_new">Add new</string>
