@@ -7,4 +7,9 @@
         android:layout_height="wrap_content"
         android:text="Log Out"
         android:id="@+id/log_out"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear logged"
+        android:id="@+id/clear_logged"/>
 </LinearLayout>

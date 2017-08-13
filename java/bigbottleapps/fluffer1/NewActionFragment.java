@@ -1,7 +1,10 @@
 package bigbottleapps.fluffer1;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -9,11 +12,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -31,8 +32,11 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -40,7 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class NewActionFragment extends Fragment implements View.OnClickListener{
+public class NewActionFragment extends Fragment implements View.OnClickListener {
     private Button mUploadBn;
     private EditText mTitle;
     private ImageView mImageView;
@@ -51,17 +55,46 @@ public class NewActionFragment extends Fragment implements View.OnClickListener{
     private Integer res;
     ProgressDialog dialog;
     private String unique = String.valueOf(System.currentTimeMillis());
+    SharedPreferences mSettings;
+    public static final String APP_PREFERENCES = "users";
+    public static final String APP_PREFERENCES_LOE = "loe";
+    public final static String APP_PREFERENCES_PASSWORD = "password";
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.new_action, container, false);
         InitializeUI(view);
-        Uri path = Uri.parse("content://com.android.providers.media.documents/document/image%3A101");
-        mImageView.setImageDrawable(getResources().getDrawable(R.drawable.add_news));
+        adding();
         return view;
     }
 
+    public void adding(){
+        if (!mSettings.contains(APP_PREFERENCES_LOE)) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Registration");
+            builder.setMessage("Only registered users can add events");
+            builder.setCancelable(false);
+            builder.setPositiveButton("Registration", new DialogInterface.OnClickListener() { // Кнопка ОК
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(getActivity().getApplicationContext(), RegisterOrLogInActivity.class));
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ((MainActivity)getActivity()).navigation.setSelectedItemId(R.id.navigation_home);
+                    ((MainActivity)getActivity()).setActionList();
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -70,11 +103,10 @@ public class NewActionFragment extends Fragment implements View.OnClickListener{
                 selectImage();
                 break;
             case R.id.uploadBn:
-                uploadImage();
+                new LOGGING().execute();
                 break;
         }
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -102,6 +134,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener{
         mTitle = (EditText)view.findViewById(R.id.action_title);
         mChooseBn.setOnClickListener(this);
         mUploadBn.setOnClickListener(this);
+        mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     private void selectImage(){
@@ -112,12 +145,6 @@ public class NewActionFragment extends Fragment implements View.OnClickListener{
     }
 
     private void uploadImage(){
-        dialog = new ProgressDialog(getActivity()); // this = YourActivity
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("Loading. Please wait...");
-        dialog.setIndeterminate(false);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
         String mUploadUrl = mServerUrl+"ImageUpload.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, mUploadUrl,
                 new Response.Listener<String>() {
@@ -149,8 +176,10 @@ public class NewActionFragment extends Fragment implements View.OnClickListener{
         try {
             Volley.newRequestQueue(getActivity()).add(stringRequest);
         }catch (Exception e){
+            dialog.dismiss();
             Toast.makeText(getActivity(), "Some troubles with uploading... \nCheck your Internet connection", Toast.LENGTH_SHORT).show();
         }
+        dialog.dismiss();
     }
 
     private String imageToString(Bitmap bitmap){
@@ -194,13 +223,93 @@ public class NewActionFragment extends Fragment implements View.OnClickListener{
         }
 
         protected void onPostExecute(Integer result){
-
-            if(result==200) {
-                dialog.dismiss();
-                ((MainActivity) getActivity()).setActionList();
-            }
+            dialog.dismiss();
+            ((MainActivity)getActivity()).setActionList();
+            ((MainActivity)getActivity()).navigation.setSelectedItemId(R.id.navigation_home);
         }
 
 
     }
+
+    private class LOGGING extends AsyncTask<Void, Void, Integer> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(getActivity()); // this = YourActivity
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setMessage("Loading. Please wait...");
+            dialog.setIndeterminate(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        }
+
+
+        protected Integer doInBackground(Void... params) {
+            String loginOrEmail = mSettings.getString(APP_PREFERENCES_LOE, "");
+            String password = mSettings.getString(APP_PREFERENCES_PASSWORD, "");
+            try {
+                String user_url = mServerUrl + "login_service.php?"
+                        + "loginoremail=" + URLEncoder.encode(loginOrEmail.trim(), "UTF-8")
+                        + "&password=" + URLEncoder.encode(password.trim(), "UTF-8");
+                conn = (HttpURLConnection) new URL(user_url).openConnection();
+                conn.setConnectTimeout(10000);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+                conn.connect();
+                res = conn.getResponseCode();
+                InputStream inputStream = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                StringBuilder stringBuilder = new StringBuilder();
+                String bufferedString;
+                while ((bufferedString = reader.readLine()) != null)
+                    stringBuilder.append(bufferedString);
+                String answer = stringBuilder.toString();
+                int code = Integer.parseInt(answer.trim());
+                switch (code) {
+                    case 0:
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                uploadImage();
+                            }
+                        });
+                        break;
+                    case 3:
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showDialog();
+                            }
+                        });
+
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conn.disconnect();
+            }
+            return res;
+        }
+
+    }
+
+    public void showDialog() {
+        dialog.dismiss();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(":(");
+        builder.setMessage("Your account is banned");
+        builder.setCancelable(true);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() { // Кнопка ОК
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 }

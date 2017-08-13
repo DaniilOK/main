@@ -12,10 +12,14 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_LOE = "loe";
     public static final String APP_PREFERENCES_PASSWORD = "password";
+    public static final String APP_PREFERENCES_LOGGED = "logged";
     SharedPreferences mSettings;
 
     @Override
     public void onBackPressed() {
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putString(APP_PREFERENCES_LOGGED, "action_list");
+        editor.apply();
         finish();
     }
 
@@ -58,7 +62,7 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
 
     public void setLogged(){
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putBoolean("logged", true);
+        editor.putString(APP_PREFERENCES_LOGGED, "new_action");
         editor.apply();
     }
 
@@ -73,9 +77,6 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
             return true;
         }
         wifiInfo = cm.getActiveNetworkInfo();
-        if (wifiInfo != null && wifiInfo.isConnected()){
-            return true;
-        }
-        return false;
+        return wifiInfo != null && wifiInfo.isConnected();
     }
 }
