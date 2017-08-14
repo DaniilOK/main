@@ -31,12 +31,12 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
 
     private static final String mServerUrl = "http://posovetu.vh100.hosterby.com/";
     private HttpURLConnection conn;
-    private String answer;
     private int res;
     private RecyclerView recyclerView;
     private MyAdapter adapter;
     private List<RecyclerItem> listItems;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private String action_id, likes, dislikes, answer, title, description, photo_url;
 
     @Override
     public void onStart() {
@@ -99,7 +99,7 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                     }
                 });
                 e.printStackTrace();
-            }finally {
+            } finally {
                 conn.disconnect();
             }
 
@@ -109,9 +109,15 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                     JSONObject jsonObject;
                     for (int i = 0; i < jsonArray.length(); i++) {
                         jsonObject = jsonArray.getJSONObject(i);
-
-                        listItems.add(0, new RecyclerItem(jsonObject.getString("title"), 2, 2, jsonObject.getString("photo_url"),
-                                jsonObject.getString("description"), jsonObject.getString("_id")));
+                        action_id = jsonObject.getString("_id");
+                        title = jsonObject.getString("title");
+                        description = jsonObject.getString("description");
+                        photo_url = jsonObject.getString("photo_url");
+                        likes = jsonObject.getString("likes");
+                        dislikes = jsonObject.getString("dislikes");
+                        int l = Integer.parseInt(likes);
+                        int d = Integer.parseInt(dislikes);
+                        listItems.add(0, new RecyclerItem(title, l, d, photo_url, description, action_id));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
