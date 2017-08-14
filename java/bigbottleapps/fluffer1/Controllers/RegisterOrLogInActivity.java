@@ -17,6 +17,7 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES_LOE = "loe";
     public static final String APP_PREFERENCES_PASSWORD = "password";
     public static final String APP_PREFERENCES_LOGGED = "logged";
+    public static final String APP_PREFERENCES_ID = "id";
     SharedPreferences mSettings;
 
     @Override
@@ -49,15 +50,16 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
     }
 
 
-    public void inputToSP(String loginOrEmail, String password){
+    public void inputToSP(String loginOrEmail, String password, String id){
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(APP_PREFERENCES_LOE, loginOrEmail);
         editor.putString(APP_PREFERENCES_PASSWORD, password);
+        editor.putString(APP_PREFERENCES_ID, id);
         editor.apply();
     }
 
-    public void startApp(String loginOrEmail, String password){
-        inputToSP(loginOrEmail, password);
+    public void startApp(String loginOrEmail, String password, String id){
+        inputToSP(loginOrEmail, password, id);
         finish();
     }
     public void setFragment(Fragment fragment){

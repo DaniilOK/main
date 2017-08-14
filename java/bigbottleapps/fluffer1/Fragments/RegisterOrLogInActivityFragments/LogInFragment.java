@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import bigbottleapps.fluffer1.Models.RecyclerItem;
 import bigbottleapps.fluffer1.R;
 import bigbottleapps.fluffer1.Controllers.RegisterOrLogInActivity;
 
@@ -99,6 +103,7 @@ public class LogInFragment extends Fragment{
                 String user_url = mServerUrl + "login_service.php?"
                         + "loginoremail=" + URLEncoder.encode(loginOrEmail.trim(), "UTF-8")
                         + "&password=" + URLEncoder.encode(password.trim(), "UTF-8");
+                Log.d("q11", user_url);
                 conn = (HttpURLConnection) new URL(user_url).openConnection();
                 conn.setConnectTimeout(10000);
                 conn.setRequestMethod("POST");
@@ -112,14 +117,23 @@ public class LogInFragment extends Fragment{
                 while ((bufferedString = reader.readLine()) != null)
                     stringBuilder.append(bufferedString);
                 answer = stringBuilder.toString();
-                Log.d("check", answer+"asd");
-                int code = Integer.parseInt(answer.substring(0,1));
+                answer = answer.substring(0, answer.indexOf("]") + 1);
+                inputStream.close();
+                reader.close();
+                JSONArray jsonArray = new JSONArray(answer);
+                JSONObject jsonObject;
+                int code;
+                String id;
+                jsonObject = jsonArray.getJSONObject(0);
+                code = Integer.parseInt(jsonObject.getString("answer"));
+                id = jsonObject.getString("_id");
+                Log.d("q11", id);
                 dialog.dismiss();
                 switch (code){
                     case 0:
                         Snackbar.make(getView(), "You were logged in", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         ((RegisterOrLogInActivity)getActivity()).setLogged();
-                        ((RegisterOrLogInActivity)getActivity()).startApp(loginOrEmail, password);
+                        ((RegisterOrLogInActivity)getActivity()).startApp(loginOrEmail, password, id);
                         break;
                     case 1:
                         Snackbar.make(getView(), "Wrong password", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -140,7 +154,7 @@ public class LogInFragment extends Fragment{
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity().getApplicationContext(), "Something went wrong... try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "-Something went wrong... try again", Toast.LENGTH_SHORT).show();
                     }
                 });
 

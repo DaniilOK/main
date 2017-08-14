@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,6 +65,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_LOE = "loe";
     public final static String APP_PREFERENCES_PASSWORD = "password";
+    public static final String APP_PREFERENCES_ID = "id";
 
 
 
@@ -203,7 +205,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
             String end_date = (System.currentTimeMillis()+120000)+"";
             String type = "food";
             String description = "Уличные музыканты Dай Dарогу играют на советской";
-            String user = "q.mis2013@gmail.com";
+            String user = mSettings.getString(APP_PREFERENCES_ID, "0");
 
             try {
                 String post_url = mServerUrl + "service.php?action=insert&"
@@ -270,7 +272,14 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                 while ((bufferedString = reader.readLine()) != null)
                     stringBuilder.append(bufferedString);
                 String answer = stringBuilder.toString();
-                int code = Integer.parseInt(answer.trim());
+                answer = answer.substring(0, answer.indexOf("]") + 1);
+                inputStream.close();
+                reader.close();
+                JSONArray jsonArray = new JSONArray(answer);
+                JSONObject jsonObject;
+                int code;
+                jsonObject = jsonArray.getJSONObject(0);
+                code = Integer.parseInt(jsonObject.getString("answer"));
                 switch (code) {
                     case 0:
                         getActivity().runOnUiThread(new Runnable() {
