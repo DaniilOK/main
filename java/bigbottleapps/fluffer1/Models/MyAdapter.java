@@ -22,8 +22,8 @@ import bigbottleapps.fluffer1.R;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    public List<RecyclerItem> listItems;
-    public Context mContext;
+    private List<RecyclerItem> listItems;
+    private Context mContext;
 
     public MyAdapter(List<RecyclerItem> listItems, Context mContext) {
         this.listItems = listItems;

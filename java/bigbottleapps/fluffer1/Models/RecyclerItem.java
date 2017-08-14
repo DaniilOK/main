@@ -8,15 +8,17 @@ public class RecyclerItem {
     private Integer likes;
     private Integer dislikes;
     private Integer progress;
+    private String id;
 
 
-    public RecyclerItem(String title, int likes, int dislikes, String image, String description) {
+    public RecyclerItem(String title, int likes, int dislikes, String image, String description, String id) {
         this.title = title;
         this.likes = likes;
         this.dislikes = dislikes;
         this.description = description;
         this.image = image;
-        this.progress = calcProgress(likes, dislikes);;
+        this.progress = calcProgress(likes, dislikes);
+        this.id = id;
     }
 
     String getTitle() {
@@ -47,7 +49,7 @@ public class RecyclerItem {
         this.progress = calcProgress(likes, dislikes);
     }
 
-    int calcProgress(int likes, int dislikes){
+    private int calcProgress(int likes, int dislikes){
         if((likes==0)&&(dislikes!=0))
             return 0;
         if((likes!=0)&&(dislikes==0))

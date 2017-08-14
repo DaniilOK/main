@@ -109,8 +109,9 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                     JSONObject jsonObject;
                     for (int i = 0; i < jsonArray.length(); i++) {
                         jsonObject = jsonArray.getJSONObject(i);
+
                         listItems.add(0, new RecyclerItem(jsonObject.getString("title"), 2, 2, jsonObject.getString("photo_url"),
-                                jsonObject.getString("description")));
+                                jsonObject.getString("description"), jsonObject.getString("_id")));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
