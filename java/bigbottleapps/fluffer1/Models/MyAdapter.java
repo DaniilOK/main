@@ -13,7 +13,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
@@ -24,6 +30,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     private List<RecyclerItem> listItems;
     private Context mContext;
+    private static final String mServerUrl = "http://posovetu.vh100.hosterby.com/";
+    private HttpURLConnection conn;
+    private int res, ans;
+    private String answer;
+    private int id, user_id, pos;
+    private ViewHolder holder_;
 
     public MyAdapter(List<RecyclerItem> listItems, Context mContext) {
         this.listItems = listItems;
@@ -41,30 +53,63 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         final RecyclerItem itemList = listItems.get(position);
         holder.txtTitle.setText(itemList.getTitle());
-        holder.txtLikes.setText(itemList.getLikes()+"");
-        holder.txtDislikes.setText(itemList.getDislikes()+"");
+        if(itemList.getLikes()<10000)
+            holder.txtLikes.setText(itemList.getLikes()+"");
+        if((itemList.getLikes()>=10000)&&(itemList.getLikes()<1000000))
+            holder.txtLikes.setText(itemList.getLikes()/1000+"k");
+        if(itemList.getLikes()>=1000000)
+            holder.txtLikes.setText(itemList.getLikes()/1000000+"M");
+
+        if(itemList.getDislikes()<10000)
+            holder.txtDislikes.setText(itemList.getDislikes()+"");
+        if((itemList.getDislikes()>=10000)&&(itemList.getDislikes()<1000000))
+            holder.txtDislikes.setText(itemList.getDislikes()/1000+"k");
+        if(itemList.getDislikes()>=1000000)
+            holder.txtDislikes.setText(itemList.getDislikes()/1000000+"M");
+
+
         holder.progressBar.setProgress(itemList.getProgress());
         setImage(holder.imgPhoto, itemList.getImage());//Запускает асинхронную загрузку изображения
 
-        holder.imgLikes.setOnClickListener(new View.OnClickListener() {
+        switch (listItems.get(position).getCurrent()){
+            case 0:
+                holder.txtDislikes.setCompoundDrawablesWithIntrinsicBounds(null, listItems.get(position).getDownBlue(), null, null);
+                break;
+            case 1:
+
+                break;
+            case 2:
+                holder.txtLikes.setCompoundDrawablesWithIntrinsicBounds(null, listItems.get(position).getUpBlue(), null, null);
+                break;
+        }
+
+        holder.txtLikes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Integer likes = listItems.get(position).getLikes()+1;
-                listItems.get(position).setLikes(likes);
-                listItems.get(position).setProgress(listItems.get(position).getLikes(), listItems.get(position).getDislikes());
-                holder.progressBar.setProgress(listItems.get(position).getProgress());
-                holder.txtLikes.setText(String.valueOf(likes));
+                id = Integer.parseInt(listItems.get(position).getId());
+                user_id = Integer.parseInt(listItems.get(position).getUser());
+                pos = position;
+                holder_ = holder;
+                if(user_id!=0)
+                    new SELECT1().execute();
+                else
+                    Toast.makeText(MyAdapter.this.mContext, "Only registered users can like posts", Toast.LENGTH_SHORT).show();
+
             }
         });
 
-        holder.imgDislikes.setOnClickListener(new View.OnClickListener() {
+        holder.txtDislikes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Integer dislikes = listItems.get(position).getDislikes()+1;
-                listItems.get(position).setDislikes(dislikes);
-                listItems.get(position).setProgress(listItems.get(position).getLikes(), listItems.get(position).getDislikes());
-                holder.progressBar.setProgress(listItems.get(position).getProgress());
-                holder.txtDislikes.setText(String.valueOf(dislikes));
+                id = Integer.parseInt(listItems.get(position).getId());
+                user_id = Integer.parseInt(listItems.get(position).getUser());
+                pos = position;
+                holder_ = holder;
+                if(user_id!=0)
+                    new SELECT2().execute();
+                else{
+                    Toast.makeText(MyAdapter.this.mContext, "Only registered users can dislike posts", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -98,8 +143,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         TextView txtTitle;
         TextView txtLikes;
         TextView txtDislikes;
-        ImageView imgLikes;
-        ImageView imgDislikes;
         ImageView imgPhoto;
         ProgressBar progressBar;
 
@@ -108,8 +151,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             txtLikes = (TextView) itemView.findViewById(R.id.text_likes);
             txtDislikes = (TextView) itemView.findViewById(R.id.text_dislikes);
-            imgLikes = (ImageView) itemView.findViewById(R.id.image_likes);
-            imgDislikes = (ImageView) itemView.findViewById(R.id.image_dislikes);
             imgPhoto = (ImageView) itemView.findViewById(R.id.list_item_photo);
             progressBar = (ProgressBar)itemView.findViewById(R.id.progressBar);
         }
@@ -136,6 +177,192 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         protected void onPostExecute(Bitmap result) {
             this.iw.setImageBitmap(result);
+        }
+    }
+
+
+
+    private class SELECT1 extends AsyncTask<Void, Void, Integer> {
+        protected Integer doInBackground(Void... params) {
+            try {
+                URL url = new URL(mServerUrl + "valuation_service.php?action=insert&action_id="+id+"&user_id="+user_id+
+                "&like_or_dislike=2");
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+                conn.setDoInput(true);
+                conn.connect();
+                res = conn.getResponseCode();
+                InputStream inputStream = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                StringBuilder stringBuilder = new StringBuilder();
+                String bufferedString;
+                while ((bufferedString = reader.readLine()) != null)
+                    stringBuilder.append(bufferedString);
+                answer = stringBuilder.toString();
+                answer = answer.substring(0, answer.indexOf("]") + 1);
+                answer = answer.substring(0, answer.indexOf("]") + 1);
+                inputStream.close();
+                reader.close();
+                JSONArray jsonArray = new JSONArray(answer);
+                JSONObject jsonObject;
+                jsonObject = jsonArray.getJSONObject(0);
+                int l = Integer.parseInt(jsonObject.getString("likes"));
+                int d = Integer.parseInt(jsonObject.getString("dislikes"));
+                ans = Integer.parseInt(jsonObject.getString("this"));
+                listItems.get(pos).setDislikes(d);
+                listItems.get(pos).setLikes(l);
+                listItems.get(pos).setProgress(l, d);
+                holder_.progressBar.setProgress(listItems.get(pos).getProgress());
+                switch(ans){
+                    case 0:
+                        new SetLB().execute();
+                        new SetDBl().execute();
+                        break;
+                    case 1:
+                        new SetLB().execute();
+                        new SetDB().execute();
+                        break;
+                    case 2:
+                        new SetLBl().execute();
+                        new SetDB().execute();
+                        break;
+                }
+                new SetL().execute();
+                new SetD().execute();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conn.disconnect();
+            }
+            return res;
+        }
+    }
+
+
+    private class SetLB extends AsyncTask<Void, Void, Integer> {
+        protected Integer doInBackground(Void... params) {
+            try {
+                holder_.txtLikes.setCompoundDrawablesWithIntrinsicBounds(null, listItems.get(pos).getUpBlack(), null, null);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class SetLBl extends AsyncTask<Void, Void, Integer> {
+        protected Integer doInBackground(Void... params) {
+            try {
+                holder_.txtLikes.setCompoundDrawablesWithIntrinsicBounds(null, listItems.get(pos).getUpBlue(), null, null);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class SetDB extends AsyncTask<Void, Void, Integer> {
+        protected Integer doInBackground(Void... params) {
+            try {
+                holder_.txtDislikes.setCompoundDrawablesWithIntrinsicBounds(null, listItems.get(pos).getDownBlack(), null, null);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class SetDBl extends AsyncTask<Void, Void, Integer> {
+        protected Integer doInBackground(Void... params) {
+            try {
+                holder_.txtDislikes.setCompoundDrawablesWithIntrinsicBounds(null, listItems.get(pos).getDownBlue(), null, null);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class SetL extends AsyncTask<Void, Void, Integer> {
+        protected Integer doInBackground(Void... params) {
+            try {
+                holder_.txtLikes.setText(listItems.get(pos).getLikes() + "");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class SetD extends AsyncTask<Void, Void, Integer> {
+        protected Integer doInBackground(Void... params) {
+            try{
+                holder_.txtDislikes.setText(listItems.get(pos).getDislikes()+"");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class SELECT2 extends AsyncTask<Void, Void, Integer> {
+        protected Integer doInBackground(Void... params) {
+            try {
+                URL url = new URL(mServerUrl + "valuation_service.php?action=insert&action_id="+id+"&user_id="+user_id+
+                        "&like_or_dislike=0");
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+                conn.setDoInput(true);
+                conn.connect();
+                res = conn.getResponseCode();
+                InputStream inputStream = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                StringBuilder stringBuilder = new StringBuilder();
+                String bufferedString;
+                while ((bufferedString = reader.readLine()) != null)
+                    stringBuilder.append(bufferedString);
+                answer = stringBuilder.toString();
+                answer = answer.substring(0, answer.indexOf("]") + 1);
+                inputStream.close();
+                reader.close();
+                JSONArray jsonArray = new JSONArray(answer);
+                JSONObject jsonObject;
+                jsonObject = jsonArray.getJSONObject(0);
+                int l = Integer.parseInt(jsonObject.getString("likes"));
+                int d = Integer.parseInt(jsonObject.getString("dislikes"));
+                ans = Integer.parseInt(jsonObject.getString("this"));
+                listItems.get(pos).setDislikes(d);
+                listItems.get(pos).setLikes(l);
+                listItems.get(pos).setProgress(l, d);
+                holder_.progressBar.setProgress(listItems.get(pos).getProgress());
+                switch(ans){
+                    case 0:
+                        new SetLB().execute();
+                        new SetDBl().execute();
+                        break;
+                    case 1:
+                        new SetLB().execute();
+                        new SetDB().execute();
+                        break;
+                    case 2:
+                        new SetLBl().execute();
+                        new SetDB().execute();
+                        break;
+                }
+                new SetL().execute();
+                new SetD().execute();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conn.disconnect();
+            }
+            return res;
         }
     }
 }

@@ -1,5 +1,8 @@
 package bigbottleapps.fluffer1.Fragments.MainActivityFragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +40,10 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
     private MyAdapter adapter;
     private List<RecyclerItem> listItems;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private String action_id, likes, dislikes, answer, title, description, photo_url;
+    private String answer, user_id;
+    public static final String APP_PREFERENCES = "users";
+    public static final String APP_PREFERENCES_ID = "id";
+    Drawable upBlack, upBlue, downBlack, downBlue;
 
     @Override
     public void onStart() {
@@ -68,12 +75,18 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         listItems = new ArrayList<>();
+        SharedPreferences mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        user_id = mSettings.getString(APP_PREFERENCES_ID, "0");
+        upBlack = getActivity().getResources().getDrawable(R.drawable.ic_thumb_up_black_24dp);
+        upBlue = getActivity().getResources().getDrawable(R.drawable.ic_thumb_up_blue_24dp);
+        downBlack = getActivity().getResources().getDrawable(R.drawable.ic_thumb_down_black_24dp);
+        downBlue = getActivity().getResources().getDrawable(R.drawable.ic_thumb_down_blue_24dp);
     }
 
     private class SELECT extends AsyncTask<Void, Void, Integer> {
         protected Integer doInBackground(Void... params) {
             try {
-                URL url = new URL(mServerUrl + "service.php?action=select");
+                URL url = new URL(mServerUrl + "service.php?action=select&user_id="+user_id);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
@@ -109,15 +122,17 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                     JSONObject jsonObject;
                     for (int i = 0; i < jsonArray.length(); i++) {
                         jsonObject = jsonArray.getJSONObject(i);
-                        action_id = jsonObject.getString("_id");
-                        title = jsonObject.getString("title");
-                        description = jsonObject.getString("description");
-                        photo_url = jsonObject.getString("photo_url");
-                        likes = jsonObject.getString("likes");
-                        dislikes = jsonObject.getString("dislikes");
+                        String action_id = jsonObject.getString("_id");
+                        String title = jsonObject.getString("title");
+                        String description = jsonObject.getString("description");
+                        String photo_url = jsonObject.getString("photo_url");
+                        String likes = jsonObject.getString("likes");
+                        String dislikes = jsonObject.getString("dislikes");
+                        int curr = Integer.parseInt(jsonObject.getString("this"));
+                        Log.d("q11", curr+"");
                         int l = Integer.parseInt(likes);
                         int d = Integer.parseInt(dislikes);
-                        listItems.add(0, new RecyclerItem(title, l, d, photo_url, description, action_id));
+                        listItems.add(0, new RecyclerItem(title, l, d, photo_url, description, action_id, user_id, upBlack, upBlue, downBlack, downBlue, curr));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

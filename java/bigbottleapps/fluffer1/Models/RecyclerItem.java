@@ -1,5 +1,9 @@
 package bigbottleapps.fluffer1.Models;
 
+import android.graphics.drawable.Drawable;
+
+import bigbottleapps.fluffer1.Controllers.MainActivity;
+
 public class RecyclerItem {
 
     private String title;
@@ -8,10 +12,14 @@ public class RecyclerItem {
     private Integer likes;
     private Integer dislikes;
     private Integer progress;
+    private Integer current;
     private String id;
+    private String user;
+    private Drawable upBlack, upBlue, downBlack, downBlue;
 
 
-    public RecyclerItem(String title, int likes, int dislikes, String image, String description, String id) {
+    public RecyclerItem(String title, int likes, int dislikes, String image, String description, String id, String user
+            , Drawable upBlack, Drawable upBlue, Drawable downBlack, Drawable downBlue, Integer current) {
         this.title = title;
         this.likes = likes;
         this.dislikes = dislikes;
@@ -19,6 +27,20 @@ public class RecyclerItem {
         this.image = image;
         this.progress = calcProgress(likes, dislikes);
         this.id = id;
+        this.user = user;
+        this.upBlack = upBlack;
+        this.upBlue = upBlue;
+        this.downBlack = downBlack;
+        this.downBlue = downBlue;
+        this.current = current;
+    }
+
+    String getId(){
+        return id;
+    }
+
+    String getUser(){
+        return user;
     }
 
     String getTitle() {
@@ -65,5 +87,25 @@ public class RecyclerItem {
 
     String getImage(){
         return this.image;
+    }
+
+    public Integer getCurrent() {
+        return current;
+    }
+
+    Drawable getUpBlack() {
+        return upBlack;
+    }
+
+    Drawable getUpBlue() {
+        return upBlue;
+    }
+
+    Drawable getDownBlack() {
+        return downBlack;
+    }
+
+    Drawable getDownBlue() {
+        return downBlue;
     }
 }
