@@ -5,12 +5,12 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log Out"
+        android:text="@string/log_out"
         android:id="@+id/log_out"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Clear logged"
+        android:text="@string/clr_logged"
         android:visibility="gone"
         android:id="@+id/clear_logged"/>
 </LinearLayout>

@@ -17,14 +17,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
-        android:text="Choose Image"
+        android:text="@string/choose_image"
         android:layout_marginTop="25dp"
         android:id="@+id/chooseBn"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/chooseBn"
-        android:text="Upload Image"
+        android:text="@string/upload_image"
         android:layout_marginTop="15dp"
         android:id="@+id/uploadBn"
         android:visibility="gone"/>
