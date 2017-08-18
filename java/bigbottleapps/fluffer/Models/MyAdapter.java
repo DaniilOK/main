@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1.Models;
+package bigbottleapps.fluffer.Models;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,7 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-import bigbottleapps.fluffer1.R;
+import bigbottleapps.fluffer.R;
 
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {

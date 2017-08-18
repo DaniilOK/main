@@ -1,8 +1,6 @@
-package bigbottleapps.fluffer1.Models;
+package bigbottleapps.fluffer.Models;
 
 import android.graphics.drawable.Drawable;
-
-import bigbottleapps.fluffer1.Controllers.MainActivity;
 
 public class RecyclerItem {
 

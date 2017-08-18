@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1.Fragments.MainActivityFragments;
+package bigbottleapps.fluffer.Fragments.MainActivityFragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,9 +26,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import bigbottleapps.fluffer1.Models.MyAdapter;
-import bigbottleapps.fluffer1.R;
-import bigbottleapps.fluffer1.Models.RecyclerItem;
+import bigbottleapps.fluffer.Models.MyAdapter;
+import bigbottleapps.fluffer.R;
+import bigbottleapps.fluffer.Models.RecyclerItem;
 
 
 public class ActionListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {

@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1.Fragments.MainActivityFragments;
+package bigbottleapps.fluffer.Fragments.MainActivityFragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import bigbottleapps.fluffer1.R;
+import bigbottleapps.fluffer.R;
 
 
 public class SettingsFragment extends Fragment {

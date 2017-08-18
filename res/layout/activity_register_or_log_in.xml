@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="bigbottleapps.fluffer1.Controllers.RegisterOrLogInActivity">
+    tools:context="bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity">
     <include layout="@layout/content_main"/>
 </android.support.constraint.ConstraintLayout>

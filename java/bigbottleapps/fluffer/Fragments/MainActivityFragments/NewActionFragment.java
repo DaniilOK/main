@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer1.Fragments.MainActivityFragments;
+package bigbottleapps.fluffer.Fragments.MainActivityFragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -45,9 +45,9 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import bigbottleapps.fluffer1.Controllers.MainActivity;
-import bigbottleapps.fluffer1.R;
-import bigbottleapps.fluffer1.Controllers.RegisterOrLogInActivity;
+import bigbottleapps.fluffer.Controllers.MainActivity;
+import bigbottleapps.fluffer.R;
+import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 
 
 public class NewActionFragment extends Fragment implements View.OnClickListener {

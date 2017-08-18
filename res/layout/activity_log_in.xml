@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:padding="16dp"
     android:layout_height="match_parent"
-    tools:context="bigbottleapps.fluffer1.Fragments.RegisterOrLogInActivityFragments.LogInFragment"
+    tools:context="bigbottleapps.fluffer.Fragments.RegisterOrLogInActivityFragments.LogInFragment"
     android:background="#555555">
 
     <EditText
