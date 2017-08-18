@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Fluffer</string>
+    <string name="title_home">Главная</string>
+    <string name="title_map">На карте</string>
+    <string name="title_add_new">Добавить</string>
+    <string name="title_settings">Настройки</string>
+    <string name="login_email">Логин или пароль</string>
+    <string name="tip_password">Пароль</string>
+    <string name="title_login">Вход</string>
+    <string name="button_login">Вход</string>
+    <string name="registration">Регистрация</string>\
+    <string name="network_error">Ошибка соединенияr</string>
+    <string name="tip_login">Логин</string>
+    <string name="tip_email">Email</string>
+    <string name="tip_password_again">Повторите пароль</string>
+    <string name="back_login">Вернуться ко входу</string>
+    <string name="nsame_password">Пароли не совпадают</string>
+    <string name="continuee">Продолжить</string>
+    <string name="log_out">Выход</string>
+    <string name="clr_logged">Clear logged</string>
+    <string name="choose_image">Выбрать изображение</string>
+    <string name="upload_image">Загрудить изображение</string>
+    <string name="title">Название</string>
+    <string name="name">Название</string>
+</resources>
