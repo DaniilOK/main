@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#bbb"
-        android:hint="Login or Email"
+        android:hint="@string/login_email"
         android:padding="16dp"
         android:textSize="20dp"
         android:inputType="textEmailAddress"
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#bbb"
-        android:hint="Password"
+        android:hint="@string/tip_password"
         android:inputType="textPassword"
         android:padding="16dp"
         android:textSize="20dp"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:textSize="40dp"
         android:textColor="#eeeeee"
-        android:text="Logging In"
+        android:text="@string/title_login"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/logB"
         android:layout_marginTop="52dp" />
@@ -50,7 +50,7 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/passwordET2"
         android:layout_marginTop="20dp"
-        android:text="Log In"
+        android:text="@string/button_login"
         android:paddingRight="16dp"
         android:background="#555"
         android:textColor="#ff6c22"
@@ -67,5 +67,5 @@
         android:paddingLeft="16dp"
         android:layout_marginTop="20dp"
         android:textColor="@color/blue"
-        android:text="Registartion" />
+        android:text="@string/registration" />
 </RelativeLayout>
