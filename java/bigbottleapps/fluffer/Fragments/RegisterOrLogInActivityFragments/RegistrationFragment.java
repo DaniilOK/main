@@ -160,12 +160,13 @@ public class RegistrationFragment extends Fragment {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                setSnackBar("Something went wrong... try again");
+                setSnackBar(getContext().getString(R.string.something_wrong));
             } finally {
                 conn.disconnect();
             }
             return res;
         }
+
 
         void setSnackBar(String text){
             Snackbar.make(getView(), text, Snackbar.LENGTH_LONG).setAction("Action", null).show();
