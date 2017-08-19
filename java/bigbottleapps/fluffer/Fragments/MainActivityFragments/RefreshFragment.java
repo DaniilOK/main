@@ -18,7 +18,7 @@ public class RefreshFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_network_error, container, false);
-        Toast.makeText(view.getContext(), "Home", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), getResources().getString(R.string.home), Toast.LENGTH_SHORT).show();
         ImageButton refresh = (ImageButton)view.findViewById(R.id.refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override

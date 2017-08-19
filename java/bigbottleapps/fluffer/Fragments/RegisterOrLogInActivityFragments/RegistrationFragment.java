@@ -113,7 +113,7 @@ public class RegistrationFragment extends Fragment {
             super.onPreExecute();
             dialog = new ProgressDialog(getActivity()); // this = YourActivity
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setMessage("Loading. Please wait...");
+            dialog.setMessage(getResources().getString(R.string.wait_loading));
             dialog.setIndeterminate(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
@@ -153,17 +153,17 @@ public class RegistrationFragment extends Fragment {
                 dialog.cancel();
                 switch (code){
                     case 0:
-                        Snackbar.make(getView(), "You were registered.. Please, log in ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Snackbar.make(getView(), getResources().getString(R.string.y_wer_registr), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         ((RegisterOrLogInActivity) getActivity()).setLog(login, password);
                         break;
                     case 1:
-                        Snackbar.make(getView(), "This login is used by other user", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Snackbar.make(getView(), getResources().getString(R.string.occupied_login), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         break;
                     case 2:
-                        Snackbar.make(getView(), "This email is used by other user", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Snackbar.make(getView(), getResources().getString(R.string.occupied_email), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         break;
                     default:
-                        Snackbar.make(getView(), "Something went wrong... try again", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Snackbar.make(getView(), getResources().getString(R.string.something_wrong), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         break;
                 }
             } catch (Exception e) {
@@ -174,8 +174,5 @@ public class RegistrationFragment extends Fragment {
             return res;
         }
 
-
-
     }
-
 }

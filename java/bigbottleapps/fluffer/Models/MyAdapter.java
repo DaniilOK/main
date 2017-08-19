@@ -93,7 +93,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 if(user_id!=0)
                     new SELECT1().execute();
                 else
-                    Toast.makeText(MyAdapter.this.mContext, "Only registered users can like posts", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyAdapter.this.mContext, mContext.getString(R.string.only_registered_like_posts), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -108,7 +108,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 if(user_id!=0)
                     new SELECT2().execute();
                 else{
-                    Toast.makeText(MyAdapter.this.mContext, "Only registered users can dislike posts", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyAdapter.this.mContext, mContext.getString(R.string.only_registered_dslike_posts), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -116,7 +116,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.imgPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Показать описание", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, mContext.getString(R.string.show_descr), Toast.LENGTH_LONG).show();
             }
         });
 

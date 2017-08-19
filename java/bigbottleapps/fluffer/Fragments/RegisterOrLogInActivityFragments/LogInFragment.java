@@ -68,7 +68,7 @@ public class LogInFragment extends Fragment{
                 if(((RegisterOrLogInActivity)getActivity()).hasConnection(getActivity()))
                     new LOGGING().execute();
                 else
-                    Toast.makeText(getActivity().getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_error), Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -90,7 +90,7 @@ public class LogInFragment extends Fragment{
             super.onPreExecute();
             dialog = new ProgressDialog(getActivity()); // this = YourActivity
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setMessage("Loading. Please wait...");
+            dialog.setMessage(getResources().getString(R.string.wait_loading));
             dialog.setIndeterminate(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
@@ -130,21 +130,21 @@ public class LogInFragment extends Fragment{
                 dialog.dismiss();
                 switch (code){
                     case 0:
-                        Snackbar.make(getView(), "You were logged in", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Snackbar.make(getView(), getResources().getString(R.string.logged_in), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         ((RegisterOrLogInActivity)getActivity()).setLogged();
                         ((RegisterOrLogInActivity)getActivity()).startApp(loginOrEmail, password, id);
                         break;
                     case 1:
-                        Snackbar.make(getView(), "Wrong password", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Snackbar.make(getView(), getResources().getString(R.string.wrong_pass), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         break;
                     case 2:
-                        Snackbar.make(getView(), "You are not registered", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Snackbar.make(getView(), getResources().getString(R.string.not_registered), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         break;
                     case 3:
-                        Snackbar.make(getView(), "Your account is banned", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Snackbar.make(getView(), getResources().getString(R.string.account_banned), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         break;
                     default:
-                        Snackbar.make(getView(), "Something went wrong... try again", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Snackbar.make(getView(), getResources().getString(R.string.something_wrong), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         break;
                 }
             } catch (Exception e) {
@@ -153,7 +153,7 @@ public class LogInFragment extends Fragment{
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity().getApplicationContext(), "-Something went wrong... try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                     }
                 });
 
