@@ -116,6 +116,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         holder.txtTitle.setOnClickListener(clickListener);
     }
 
+    @Override
+    public int getItemCount() {
+        return listItems.size();
+    }
+
     private void likesOrDislikesClick(boolean flag, int position, ViewHolder holder, String text){
         id = Integer.parseInt(listItems.get(position).getId());
         user_id = Integer.parseInt(listItems.get(position).getUser());
@@ -153,9 +158,55 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         new DownloadImageTask(iw).execute(res);
     }
 
-    @Override
-    public int getItemCount() {
-        return listItems.size();
+    private void setLikesAndDislikes(int ans){
+        setLikesAmount(listItems.get(pos).getLikes());
+        setDislikesAmount(listItems.get(pos).getDislikes());
+        switch(ans){
+            case 0:
+                setLikeImage(listItems.get(pos).getUpBlack());
+                setDislikeImage(listItems.get(pos).getDownBlue());
+                break;
+            case 1:
+                setLikeImage(listItems.get(pos).getUpBlack());
+                setDislikeImage(listItems.get(pos).getDownBlack());
+                break;
+            case 2:
+                setLikeImage(listItems.get(pos).getUpBlue());
+                setDislikeImage(listItems.get(pos).getDownBlack());
+                break;
+        }
+    }
+
+    private void setLikeImage(Drawable res){
+        try {
+            holder_.txtLikes.setCompoundDrawablesWithIntrinsicBounds(null, res, null, null);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void setDislikeImage(Drawable res){
+        try {
+            holder_.txtDislikes.setCompoundDrawablesWithIntrinsicBounds(null, res, null, null);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void setLikesAmount(int amount){
+        try{
+            holder_.txtLikes.setText(amount+"");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void setDislikesAmount(int amount){
+        try{
+            holder_.txtDislikes.setText(amount+"");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -208,7 +259,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 else
                     likeOrDislike = "0";
                 URL url = new URL(mServerUrl + "valuation_service.php?action=insert&action_id="+id+"&user_id="+user_id+
-                "&like_or_dislike="+likeOrDislike);
+                        "&like_or_dislike="+likeOrDislike);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
@@ -242,57 +293,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 conn.disconnect();
             }
             return res;
-        }
-    }
-
-    private void setLikesAndDislikes(int ans){
-        setLikesAmount(listItems.get(pos).getLikes());
-        setDislikesAmount(listItems.get(pos).getDislikes());
-        switch(ans){
-            case 0:
-                setLikeImage(listItems.get(pos).getUpBlack());
-                setDislikeImage(listItems.get(pos).getDownBlue());
-                break;
-            case 1:
-                setLikeImage(listItems.get(pos).getUpBlack());
-                setDislikeImage(listItems.get(pos).getDownBlack());
-                break;
-            case 2:
-                setLikeImage(listItems.get(pos).getUpBlue());
-                setDislikeImage(listItems.get(pos).getDownBlack());
-                break;
-        }
-    }
-
-    private void setLikeImage(Drawable res){
-        try {
-            holder_.txtLikes.setCompoundDrawablesWithIntrinsicBounds(null, res, null, null);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private void setDislikeImage(Drawable res){
-        try {
-            holder_.txtDislikes.setCompoundDrawablesWithIntrinsicBounds(null, res, null, null);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private void setLikesAmount(int amount){
-        try{
-            holder_.txtLikes.setText(amount+"");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private void setDislikesAmount(int amount){
-        try{
-            holder_.txtDislikes.setText(amount+"");
-        }catch (Exception e){
-            e.printStackTrace();
         }
     }
 }
