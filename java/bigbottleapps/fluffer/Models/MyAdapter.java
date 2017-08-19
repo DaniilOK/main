@@ -87,68 +87,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
         holder.txtLikes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                id = Integer.parseInt(listItems.get(position).getId());
-                user_id = Integer.parseInt(listItems.get(position).getUser());
-                pos = position;
-                holder_ = holder;
-                if(user_id!=0) {
-                    lOrD = true;
-                    new SELECT1().execute();
-                }else{
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setTitle("Registration");
-                    builder.setMessage("Only registered users can add events");
-                    builder.setCancelable(false);
-                    builder.setPositiveButton("Registration", new DialogInterface.OnClickListener() { // Кнопка ОК
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
+            public void onClick(View v) {
+                likesOrDislikesClick(true, position, holder, mContext.getString(R.string.only_registered_like_posts));
             }
         });
 
         holder.txtDislikes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                id = Integer.parseInt(listItems.get(position).getId());
-                user_id = Integer.parseInt(listItems.get(position).getUser());
-                pos = position;
-                holder_ = holder;
-                if(user_id!=0) {
-                    lOrD = false;
-                    new SELECT1().execute();
-                } else {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setTitle("Registration");
-                    builder.setMessage("Only registered users can add events");
-                    builder.setCancelable(false);
-                    builder.setPositiveButton("Registration", new DialogInterface.OnClickListener() { // Кнопка ОК
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mContext.startActivity(new Intent(mContext, RegisterOrLogInActivity.class));
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
+                likesOrDislikesClick(false, position, holder, mContext.getString(R.string.only_registered_like_posts));
             }
         });
 
@@ -167,6 +114,39 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         };
 
         holder.txtTitle.setOnClickListener(clickListener);
+    }
+
+    private void likesOrDislikesClick(boolean flag, int position, ViewHolder holder, String text){
+        id = Integer.parseInt(listItems.get(position).getId());
+        user_id = Integer.parseInt(listItems.get(position).getUser());
+        pos = position;
+        holder_ = holder;
+        if(user_id!=0) {
+            lOrD = flag;
+            new SELECT1().execute();
+        } else
+            setDialog(text);
+    }
+
+    private void setDialog(String text){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle(mContext.getString(R.string.registration));
+        builder.setMessage(text);
+        builder.setCancelable(false);
+        builder.setPositiveButton(mContext.getString(R.string.registration), new DialogInterface.OnClickListener() { // Кнопка ОК
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mContext.startActivity(new Intent(mContext, RegisterOrLogInActivity.class));
+            }
+        });
+        builder.setNegativeButton(mContext.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void setImage(ImageView iw, String res){
