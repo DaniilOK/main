@@ -28,7 +28,7 @@
     <string name="account_banned">"Ваш аккаунт заблокирован!"</string>
     <string name="home">Домой</string>
     <string name="new_">новый</string>
-    <string name="logged_in">Вы вошли в системы</string>
+    <string name="logged_in">Вы вошли в систему</string>
     <string name="wrong_pass">Неправильный пароль</string>
     <string name="not_registered">Вы не зарегистрированы</string>
     <string name="something_wrong">Что-то пошло не так... попробуйте еще раз</string>
