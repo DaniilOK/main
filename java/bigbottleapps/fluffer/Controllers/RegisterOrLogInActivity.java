@@ -18,7 +18,6 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES_LOGGED = "logged";
     public static final String APP_PREFERENCES_ID = "id";
     SharedPreferences mSettings;
-    String from;
 
     @Override
     public void onBackPressed() {
