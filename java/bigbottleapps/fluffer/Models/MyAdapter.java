@@ -27,7 +27,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 import bigbottleapps.fluffer.R;
 
@@ -156,7 +155,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         holder.imgPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Показать описание", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, mContext.getString(R.string.show_descr), Toast.LENGTH_LONG).show();
             }
         });
 

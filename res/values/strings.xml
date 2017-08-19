@@ -21,5 +21,21 @@
     <string name="choose_image">Choose Image</string>
     <string name="upload_image">Upload Image</string>
     <string name="title">Title</string>
-    <string name="name">Title</string>
+    <string name="only_registered_events">Only registered users can add events</string>
+    <string name="cancel">Cancel</string>
+    <string name="intern_trouble">Some troubles with uploading... \nCheck your Internet connection</string>
+    <string name="wait_loading">Loading. Please wait...</string>
+    <string name="account_banned">"Your account is banned"</string>
+    <string name="home">Home</string>
+    <string name="new_">new</string>
+    <string name="logged_in">You were logged in</string>
+    <string name="wrong_pass">Wrong password</string>
+    <string name="not_registered">You are not registered</string>
+    <string name="something_wrong">Something went wrong... try again</string>
+    <string name="y_wer_registr">You were registered.. Please, log in </string>
+    <string name="occupied_login">This login is used by other user</string>
+    <string name="occupied_email">This email is used by other user</string>
+    <string name="only_registered_like_posts">Only registered users can like posts</string>
+    <string name="only_registered_dslike_posts">Only registered users can dislike posts</string>
+    <string name="show_descr">show description</string>
 </resources>
