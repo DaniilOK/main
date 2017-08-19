@@ -1,10 +1,13 @@
 package bigbottleapps.fluffer.Models;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import bigbottleapps.fluffer.Controllers.MainActivity;
+import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 import bigbottleapps.fluffer.R;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
@@ -91,9 +96,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 if(user_id!=0) {
                     lOrD = true;
                     new SELECT1().execute();
+                }else{
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setTitle("Registration");
+                    builder.setMessage("Only registered users can add events");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Registration", new DialogInterface.OnClickListener() { // Кнопка ОК
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
-                else
-                    Toast.makeText(MyAdapter.this.mContext, "Only registered users can like posts", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -107,8 +129,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 if(user_id!=0) {
                     lOrD = false;
                     new SELECT1().execute();
-                }else{
-                    Toast.makeText(MyAdapter.this.mContext, "Only registered users can dislike posts", Toast.LENGTH_SHORT).show();
+                } else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setTitle("Registration");
+                    builder.setMessage("Only registered users can add events");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Registration", new DialogInterface.OnClickListener() { // Кнопка ОК
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mContext.startActivity(new Intent(mContext, RegisterOrLogInActivity.class));
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
             }
         });

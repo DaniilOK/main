@@ -25,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if((mSettings!=null)&&(mSettings.contains(APP_PREFERENCES_LOGGED)))
-            if (mSettings.getString(APP_PREFERENCES_LOGGED, "action_list").equals("action_list"))
+            if (mSettings.getString(APP_PREFERENCES_LOGGED, "action_list").equals("action_list")) {
                 navigation.setSelectedItemId(R.id.navigation_home);
+            }
     }
 
     @Override
