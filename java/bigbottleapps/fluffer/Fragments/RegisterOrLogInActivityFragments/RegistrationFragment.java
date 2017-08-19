@@ -105,7 +105,7 @@ public class RegistrationFragment extends Fragment {
             super.onPreExecute();
             dialog = new ProgressDialog(getActivity()); // this = YourActivity
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setMessage("Loading. Please wait...");
+            dialog.setMessage(getResources().getString(R.string.wait_loading));
             dialog.setIndeterminate(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
@@ -144,17 +144,18 @@ public class RegistrationFragment extends Fragment {
                 dialog.dismiss();
                 switch (code){
                     case 0:
-                        setSnackBar("You were registered.. Please, log in ");
+                        setSnackBar(getResources().getString(R.string.y_wer_registr));
                         ((RegisterOrLogInActivity) getActivity()).setLogInFragment(login, password);
                         break;
                     case 1:
-                        setSnackBar("This login is used by other user");
+                        setSnackBar(getResources().getString(R.string.occupied_login));
                         break;
                     case 2:
-                        setSnackBar("This email is used by other user");
+                        setSnackBar(getResources().getString(R.string.occupied_email));
                         break;
                     default:
-                        setSnackBar("Something went wrong... try again");
+                        setSnackBar(getResources().getString(R.string.something_wrong));
+
                         break;
                 }
             } catch (Exception e) {
@@ -171,3 +172,4 @@ public class RegistrationFragment extends Fragment {
         }
     }
 }
+

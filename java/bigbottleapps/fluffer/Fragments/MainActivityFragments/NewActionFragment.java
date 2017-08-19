@@ -181,7 +181,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
             Volley.newRequestQueue(getActivity()).add(stringRequest);
         }catch (Exception e){
             dialog.dismiss();
-            Toast.makeText(getActivity(), "Some troubles with uploading... \nCheck your Internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.intern_trouble), Toast.LENGTH_SHORT).show();
         }
         dialog.dismiss();
     }
@@ -239,7 +239,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
             super.onPreExecute();
             dialog = new ProgressDialog(getActivity()); // this = YourActivity
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setMessage("Loading. Please wait...");
+            dialog.setMessage(getResources().getString(R.string.wait_loading));
             dialog.setIndeterminate(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
@@ -306,7 +306,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(":(");
-        builder.setMessage("Your account is banned");
+        builder.setMessage(getResources().getString(R.string.account_banned));
         builder.setCancelable(true);
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() { // Кнопка ОК
             @Override
