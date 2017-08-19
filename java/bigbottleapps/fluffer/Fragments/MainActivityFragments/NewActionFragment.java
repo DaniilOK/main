@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +48,6 @@ import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.R;
 import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 
-
 public class NewActionFragment extends Fragment implements View.OnClickListener {
     private Button mUploadBn;
     private EditText mTitle;
@@ -67,41 +65,13 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     public final static String APP_PREFERENCES_PASSWORD = "password";
     public static final String APP_PREFERENCES_ID = "id";
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.new_action_activity, container, false);
         InitializeUI(view);
-        Log.d("pipi", "s");
         adding();
         return view;
-    }
-
-    public void adding(){
-        if (!mSettings.contains(APP_PREFERENCES_LOE)) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Registration");
-            builder.setMessage("Only registered users can add events");
-            builder.setCancelable(false);
-            builder.setPositiveButton("Registration", new DialogInterface.OnClickListener() { // Кнопка ОК
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getActivity().getApplicationContext(), RegisterOrLogInActivity.class));
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    ((MainActivity)getActivity()).navigation.setSelectedItemId(R.id.navigation_home);
-                    ((MainActivity)getActivity()).setActionList();
-                    dialog.dismiss();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
     }
 
     @Override
@@ -145,6 +115,31 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
+    public void adding(){
+        if (!mSettings.contains(APP_PREFERENCES_LOE)) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Registration");
+            builder.setMessage("Only registered users can add events");
+            builder.setCancelable(false);
+            builder.setPositiveButton("Registration", new DialogInterface.OnClickListener() { // Кнопка ОК
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(getActivity().getApplicationContext(), RegisterOrLogInActivity.class));
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ((MainActivity)getActivity()).navigation.setSelectedItemId(R.id.navigation_home);
+                    ((MainActivity)getActivity()).setActionListFragment();
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
+
     private void selectImage(){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -164,13 +159,14 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                             Toast.makeText(getActivity(), Response, Toast.LENGTH_SHORT).show();
                             new INSERTtoChat().execute();
                         } catch (JSONException e) {
+                            Toast.makeText(getActivity(), "Some errors while loading... Please, try again", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError error){
-
+                Toast.makeText(getActivity(), "Some errors while loading... Please, try again", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -206,7 +202,6 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
             String type = "food";
             String description = "Уличные музыканты Dай Dарогу играют на советской";
             String user = mSettings.getString(APP_PREFERENCES_ID, "0");
-
             try {
                 String post_url = mServerUrl + "service.php?action=insert&"
                         + "type=" + URLEncoder.encode(type.trim(), "UTF-8")
@@ -225,6 +220,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
+                dialog.dismiss();
                 conn.disconnect();
             }
             return res;
@@ -232,11 +228,9 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
 
         protected void onPostExecute(Integer result){
             dialog.dismiss();
-            ((MainActivity)getActivity()).setActionList();
+            ((MainActivity)getActivity()).setActionListFragment();
             ((MainActivity)getActivity()).navigation.setSelectedItemId(R.id.navigation_home);
         }
-
-
     }
 
     private class LOGGING extends AsyncTask<Void, Void, Integer> {
@@ -250,7 +244,6 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }
-
 
         protected Integer doInBackground(Void... params) {
             String loginOrEmail = mSettings.getString(APP_PREFERENCES_LOE, "");
@@ -290,13 +283,13 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                         });
                         break;
                     case 3:
+                        dialog.dismiss();
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 showDialog();
                             }
                         });
-
                         break;
                     default:
                         break;
@@ -308,11 +301,9 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
             }
             return res;
         }
-
     }
 
     public void showDialog() {
-        dialog.dismiss();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(":(");
         builder.setMessage("Your account is banned");
@@ -326,5 +317,4 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 }

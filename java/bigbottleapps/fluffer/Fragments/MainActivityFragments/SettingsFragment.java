@@ -12,12 +12,10 @@ import android.widget.Button;
 
 import bigbottleapps.fluffer.R;
 
-
 public class SettingsFragment extends Fragment {
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_LOE = "loe";
     public static final String APP_PREFERENCES_LOGGED = "logged";
-
     private SharedPreferences mSettings;
 
     @Nullable

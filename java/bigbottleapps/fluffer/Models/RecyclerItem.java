@@ -15,7 +15,6 @@ public class RecyclerItem {
     private String user;
     private Drawable upBlack, upBlue, downBlack, downBlue;
 
-
     public RecyclerItem(String title, int likes, int dislikes, String image, String description, String id, String user
             , Drawable upBlack, Drawable upBlue, Drawable downBlack, Drawable downBlue, Integer current) {
         this.title = title;
@@ -87,7 +86,7 @@ public class RecyclerItem {
         return this.image;
     }
 
-    public Integer getCurrent() {
+    Integer getCurrent() {
         return current;
     }
 

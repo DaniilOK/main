@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import bigbottleapps.fluffer.Models.MyAdapter;
 import bigbottleapps.fluffer.R;
 import bigbottleapps.fluffer.Models.RecyclerItem;
 
-
 public class ActionListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String mServerUrl = "http://posovetu.vh100.hosterby.com/";
@@ -43,32 +41,28 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
     private String answer, user_id;
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_ID = "id";
-    Drawable upBlack, upBlue, downBlack, downBlue;
+    public Drawable upBlack, upBlue, downBlack, downBlue;
 
     @Override
     public void onStart() {
         super.onStart();
-        listItems.clear();
-        new SELECT().execute();
-        if (adapter != null)
-            adapter.notifyDataSetChanged();
+        load();
     }
 
     @Override
     public void onRefresh() {
-        listItems = new ArrayList<>();
-        new SELECT().execute();
+        load();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_action_list, container, false);
-        UIInitialization(view);
+        Initialization(view);
         return view;
     }
 
-    public void UIInitialization(View view) {
+    public void Initialization(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -77,10 +71,19 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
         listItems = new ArrayList<>();
         SharedPreferences mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         user_id = mSettings.getString(APP_PREFERENCES_ID, "0");
-        upBlack = getActivity().getResources().getDrawable(R.drawable.ic_thumb_up_black_24dp);
-        upBlue = getActivity().getResources().getDrawable(R.drawable.ic_thumb_up_blue_24dp);
-        downBlack = getActivity().getResources().getDrawable(R.drawable.ic_thumb_down_black_24dp);
-        downBlue = getActivity().getResources().getDrawable(R.drawable.ic_thumb_down_blue_24dp);
+        upBlack = getImageById(R.drawable.ic_thumb_up_black_24dp);
+        upBlue = getImageById(R.drawable.ic_thumb_up_blue_24dp);
+        downBlack = getImageById(R.drawable.ic_thumb_down_black_24dp);
+        downBlue = getImageById(R.drawable.ic_thumb_down_blue_24dp);
+    }
+
+    Drawable getImageById(int id){
+        return getActivity().getResources().getDrawable(id);
+    }
+
+    public void load(){
+        listItems.clear();
+        new SELECT().execute();
     }
 
     private class SELECT extends AsyncTask<Void, Void, Integer> {
@@ -115,7 +118,6 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
             } finally {
                 conn.disconnect();
             }
-
             if (answer != null && !answer.trim().equals("")) {
                 try {
                     JSONArray jsonArray = new JSONArray(answer);
@@ -129,7 +131,6 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                         String likes = jsonObject.getString("likes");
                         String dislikes = jsonObject.getString("dislikes");
                         int curr = Integer.parseInt(jsonObject.getString("this"));
-                        Log.d("q11", curr+"");
                         int l = Integer.parseInt(likes);
                         int d = Integer.parseInt(dislikes);
                         listItems.add(0, new RecyclerItem(title, l, d, photo_url, description, action_id, user_id, upBlack, upBlue, downBlack, downBlue, curr));

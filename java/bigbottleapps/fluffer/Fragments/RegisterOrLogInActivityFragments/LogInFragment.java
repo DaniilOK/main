@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +31,10 @@ public class LogInFragment extends Fragment{
     Button registerB, loggingB;
     EditText loginOrEmailET, passwordET;
     View.OnClickListener regClickListener, logClickListener;
-    private String mServerUrl = "http://posovetu.vh100.hosterby.com/", answer;
-    private HttpURLConnection conn;
+    String mServerUrl = "http://posovetu.vh100.hosterby.com/", answer;
+    HttpURLConnection conn;
     Integer res;
     ProgressDialog dialog;
-
 
     @Nullable
     @Override
@@ -59,7 +57,7 @@ public class LogInFragment extends Fragment{
         regClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((RegisterOrLogInActivity) getActivity()).setReg();
+                ((RegisterOrLogInActivity) getActivity()).setRegistrationFragment();
             }
         };
         logClickListener = new View.OnClickListener() {
@@ -69,7 +67,6 @@ public class LogInFragment extends Fragment{
                     new LOGGING().execute();
                 else
                     Toast.makeText(getActivity().getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();
-
             }
         };
     }
@@ -95,6 +92,7 @@ public class LogInFragment extends Fragment{
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }
+
         protected Integer doInBackground(Void... params) {
             String loginOrEmail = loginOrEmailET.getText().toString();
             String password = passwordET.getText().toString();
@@ -102,7 +100,6 @@ public class LogInFragment extends Fragment{
                 String user_url = mServerUrl + "login_service.php?"
                         + "loginoremail=" + URLEncoder.encode(loginOrEmail.trim(), "UTF-8")
                         + "&password=" + URLEncoder.encode(password.trim(), "UTF-8");
-                Log.d("q11", user_url);
                 conn = (HttpURLConnection) new URL(user_url).openConnection();
                 conn.setConnectTimeout(10000);
                 conn.setRequestMethod("POST");
@@ -121,30 +118,25 @@ public class LogInFragment extends Fragment{
                 reader.close();
                 JSONArray jsonArray = new JSONArray(answer);
                 JSONObject jsonObject;
-                int code;
-                String id;
                 jsonObject = jsonArray.getJSONObject(0);
-                code = Integer.parseInt(jsonObject.getString("answer"));
-                id = jsonObject.getString("_id");
-                Log.d("q11", id);
                 dialog.dismiss();
-                switch (code){
+                switch (Integer.parseInt(jsonObject.getString("answer"))){
                     case 0:
-                        Snackbar.make(getView(), "You were logged in", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        setSnackBar("You were logged in");
                         ((RegisterOrLogInActivity)getActivity()).setLogged();
-                        ((RegisterOrLogInActivity)getActivity()).startApp(loginOrEmail, password, id);
+                        ((RegisterOrLogInActivity)getActivity()).startApp(loginOrEmail, password, jsonObject.getString("_id"));
                         break;
                     case 1:
-                        Snackbar.make(getView(), "Wrong password", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        setSnackBar("Wrong password");
                         break;
                     case 2:
-                        Snackbar.make(getView(), "You are not registered", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        setSnackBar("You are not registered");
                         break;
                     case 3:
-                        Snackbar.make(getView(), "Your account is banned", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        setSnackBar("Your account is banned");
                         break;
                     default:
-                        Snackbar.make(getView(), "Something went wrong... try again", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        setSnackBar("Something went wrong... try again");
                         break;
                 }
             } catch (Exception e) {
@@ -153,16 +145,17 @@ public class LogInFragment extends Fragment{
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity().getApplicationContext(), "-Something went wrong... try again", Toast.LENGTH_SHORT).show();
+                        setSnackBar("Something went wrong... try again");
                     }
                 });
-
             } finally {
                 conn.disconnect();
             }
             return res;
         }
 
+        void setSnackBar(String text){
+            Snackbar.make(getView(), text, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
     }
-
 }

@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +32,9 @@ public class RegistrationFragment extends Fragment {
     private Button continueB, logInB;
     private View.OnClickListener buttonClickListener, logInClickListener;
     private TextWatcher textWatcher;
-    private String mServerUrl = "http://posovetu.vh100.hosterby.com/", answer;
     private HttpURLConnection conn;
     private Integer res;
     ProgressDialog dialog;
-
-    public RegistrationFragment(){
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,18 +65,16 @@ public class RegistrationFragment extends Fragment {
         logInClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((RegisterOrLogInActivity) getActivity()).setLog("", "");
+                ((RegisterOrLogInActivity) getActivity()).setLogInFragment("", "");
             }
         };
         textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -119,19 +111,19 @@ public class RegistrationFragment extends Fragment {
             dialog.show();
         }
 
-
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             dialog.dismiss();
         }
+
         @Override
         protected Integer doInBackground(Void... params) {
             String login = loginET.getText().toString();
             String email = emailET.getText().toString();
             String password = passwordET.getText().toString();
             try {
-                String user_url = mServerUrl + "user_service.php?action=insert&"
+                String user_url = "http://posovetu.vh100.hosterby.com/" + "user_service.php?action=insert&"
                         + "login=" + URLEncoder.encode(login.trim(), "UTF-8")
                         + "&email=" + URLEncoder.encode(email.trim(), "UTF-8")
                         + "&password=" + URLEncoder.encode(password.trim(), "UTF-8");
@@ -147,35 +139,35 @@ public class RegistrationFragment extends Fragment {
                 String bufferedString;
                 while ((bufferedString = reader.readLine()) != null)
                     stringBuilder.append(bufferedString);
-                answer = stringBuilder.toString();
+                String answer = stringBuilder.toString();
                 int code = Integer.parseInt(answer.substring(1,2));
-                Log.d("check", code+"");
-                dialog.cancel();
+                dialog.dismiss();
                 switch (code){
                     case 0:
-                        Snackbar.make(getView(), "You were registered.. Please, log in ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                        ((RegisterOrLogInActivity) getActivity()).setLog(login, password);
+                        setSnackBar("You were registered.. Please, log in ");
+                        ((RegisterOrLogInActivity) getActivity()).setLogInFragment(login, password);
                         break;
                     case 1:
-                        Snackbar.make(getView(), "This login is used by other user", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        setSnackBar("This login is used by other user");
                         break;
                     case 2:
-                        Snackbar.make(getView(), "This email is used by other user", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        setSnackBar("This email is used by other user");
                         break;
                     default:
-                        Snackbar.make(getView(), "Something went wrong... try again", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        setSnackBar("Something went wrong... try again");
                         break;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                setSnackBar("Something went wrong... try again");
             } finally {
                 conn.disconnect();
             }
             return res;
         }
 
-
-
+        void setSnackBar(String text){
+            Snackbar.make(getView(), text, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
     }
-
 }

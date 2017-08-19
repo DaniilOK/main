@@ -11,11 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import bigbottleapps.fluffer.Fragments.MainActivityFragments.ActionListFragment;
-import bigbottleapps.fluffer.Fragments.MainActivityFragments.NewActionFragment;
-import bigbottleapps.fluffer.Fragments.MainActivityFragments.RefreshFragment;
-import bigbottleapps.fluffer.Fragments.MainActivityFragments.RefreshFragment2;
-import bigbottleapps.fluffer.Fragments.MainActivityFragments.SettingsFragment;
+import bigbottleapps.fluffer.Fragments.MainActivityFragments.*;
 import bigbottleapps.fluffer.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,23 +27,31 @@ public class MainActivity extends AppCompatActivity {
         if((mSettings!=null)&&(mSettings.contains(APP_PREFERENCES_LOGGED)))
             if (mSettings.getString(APP_PREFERENCES_LOGGED, "action_list").equals("action_list"))
                 navigation.setSelectedItemId(R.id.navigation_home);
-                //setActionList();
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        setActionListFragment();
+    }
+    
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            //region
+            //region mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    setActionList();
+                    setActionListFragment();
                     return true;
                 case R.id.navigation_map:
                     return true;
                 case R.id.navigation_add:
-                    startNew();
+                    setNewActionFragment();
                     return true;
                 case R.id.navigation_settings:
                     setFragment(new SettingsFragment());
@@ -59,14 +63,14 @@ public class MainActivity extends AppCompatActivity {
     };
     //endregion
 
-    public void startNew(){
+    public void setNewActionFragment(){
         if(hasConnection(this))
             setFragment(new NewActionFragment());
         else
             setFragment(new RefreshFragment2());
     }
 
-    public void setActionList(){
+    public void setActionListFragment(){
         if(hasConnection(this))
             setFragment(new ActionListFragment());
         else
@@ -76,15 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void setFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        setActionList();
     }
 
     public static boolean hasConnection(final Context context) {
@@ -100,8 +95,4 @@ public class MainActivity extends AppCompatActivity {
         wifiInfo = cm.getActiveNetworkInfo();
         return wifiInfo != null && wifiInfo.isConnected();
     }
-
-
-
-
 }

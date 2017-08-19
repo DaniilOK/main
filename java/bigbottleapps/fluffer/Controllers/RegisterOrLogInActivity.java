@@ -8,8 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import bigbottleapps.fluffer.Fragments.RegisterOrLogInActivityFragments.LogInFragment;
-import bigbottleapps.fluffer.Fragments.RegisterOrLogInActivityFragments.RegistrationFragment;
+import bigbottleapps.fluffer.Fragments.RegisterOrLogInActivityFragments.*;
 import bigbottleapps.fluffer.R;
 
 public class RegisterOrLogInActivity extends AppCompatActivity {
@@ -36,21 +35,20 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
-    public void setReg(){
+    public void setRegistrationFragment(){
         setFragment(new RegistrationFragment());
     }
 
-    public void setLog(String loe, String password){
-        Fragment fragment = new LogInFragment();
+    public void setLogInFragment(String loginOrEmail, String password){
+        Fragment logInFragment = new LogInFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(APP_PREFERENCES_LOE, loe);
+        bundle.putString(APP_PREFERENCES_LOE, loginOrEmail);
         bundle.putString(APP_PREFERENCES_PASSWORD, password);
-        fragment.setArguments(bundle);
-        setFragment(fragment);
+        logInFragment.setArguments(bundle);
+        setFragment(logInFragment);
     }
 
-
-    public void inputToSP(String loginOrEmail, String password, String id){
+    public void inputToSharedPreferences(String loginOrEmail, String password, String id){
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(APP_PREFERENCES_LOE, loginOrEmail);
         editor.putString(APP_PREFERENCES_PASSWORD, password);
@@ -59,9 +57,10 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
     }
 
     public void startApp(String loginOrEmail, String password, String id){
-        inputToSP(loginOrEmail, password, id);
+        inputToSharedPreferences(loginOrEmail, password, id);
         finish();
     }
+
     public void setFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
