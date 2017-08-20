@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -28,6 +31,7 @@ import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 
 public class LogInFragment extends Fragment{
 
+    TextView forgotPasswordTV;
     Button registerB, loggingB;
     EditText loginOrEmailET, passwordET;
     View.OnClickListener regClickListener, logClickListener;
@@ -51,6 +55,7 @@ public class LogInFragment extends Fragment{
         loginOrEmailET = (EditText)view.findViewById(R.id.loginoremailET);
         passwordET = (EditText)view.findViewById(R.id.passwordET2);
         loggingB = (Button)view.findViewById(R.id.logB);
+        forgotPasswordTV = (TextView) view.findViewById(R.id.forgot);
     }
 
     public void Init(){
@@ -67,12 +72,20 @@ public class LogInFragment extends Fragment{
                     new LOGGING().execute();
                 else
                     Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_error), Toast.LENGTH_SHORT).show();
-
             }
         };
+        forgotPasswordTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void UISet(){
+        String htmlTaggedString  = getString(R.string.forgot_password);
+        Spanned textSpan  =  android.text.Html.fromHtml(htmlTaggedString);
+        forgotPasswordTV.setText(textSpan);
         registerB.setOnClickListener(regClickListener);
         loggingB.setOnClickListener(logClickListener);
         Bundle bundle = this.getArguments();

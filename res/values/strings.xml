@@ -7,7 +7,7 @@
     <string name="login_email">Login or Email</string>
     <string name="tip_password">Password</string>
     <string name="title_login">Sign In</string>
-    <string name="button_login">Log In</string>
+    <string name="button_login">Sign In</string>
     <string name="registration">Sign Up</string>\
     <string name="network_error">Network Error</string>
     <string name="tip_login">Login</string>
@@ -16,7 +16,7 @@
     <string name="back_login">Back to Sign In</string>
     <string name="nsame_password">Passwords are not the same</string>
     <string name="continuee">Continue</string>
-    <string name="log_out">Log Out</string>
+    <string name="log_out">Sign Out</string>
     <string name="clr_logged">Clear logged</string>
     <string name="choose_image">Choose Image</string>
     <string name="upload_image">Upload Image</string>
@@ -38,4 +38,7 @@
     <string name="only_registered_like_posts">Only registered users can like posts</string>
     <string name="only_registered_dslike_posts">Only registered users can dislike posts</string>
     <string name="show_descr">show description</string>
+
+    <string name="forgot_password"><b>Forgot password?</b></string>
+
 </resources>
