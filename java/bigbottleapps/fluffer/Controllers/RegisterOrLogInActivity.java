@@ -35,6 +35,10 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
+    public void setForgetFragment(){
+        setFragment(new ForgetFragment());
+    }
+
     public void setRegistrationFragment(){
         setFragment(new RegistrationFragment());
     }

@@ -40,5 +40,5 @@
     <string name="show_descr">show description</string>
 
     <string name="forgot_password"><b>Forgot password?</b></string>
-
+    <string name="new_password">New Password</string>
 </resources>

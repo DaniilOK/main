@@ -77,7 +77,7 @@ public class LogInFragment extends Fragment{
         forgotPasswordTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ((RegisterOrLogInActivity)getActivity()).setForgetFragment();
             }
         });
     }
@@ -151,7 +151,6 @@ public class LogInFragment extends Fragment{
                         break;
                     default:
                         setSnackBar(getResources().getString(R.string.something_wrong));
-
                         break;
                 }
             } catch (Exception e) {
@@ -161,8 +160,6 @@ public class LogInFragment extends Fragment{
                     @Override
                     public void run() {
                         setSnackBar(getResources().getString(R.string.something_wrong));
-
-
                     }
                 });
             } finally {

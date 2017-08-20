@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#555555">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#bbb"
+        android:hint="@string/login_email"
+        android:padding="16dp"
+        android:textSize="20sp"
+        android:inputType="textEmailAddress"
+        android:id="@+id/loginoremailETF"
+        android:layout_alignBottom="@+id/passwordETF"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="73dp" />
+
+    <EditText
+        android:layout_marginTop="240dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#bbb"
+        android:hint="@string/new_password"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textSize="20sp"
+        android:id="@+id/passwordETF"
+        />
+    <Button
+        android:id="@+id/continueBF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/continuee"
+        android:paddingRight="16dp"
+        android:background="#555"
+        android:textColor="#ff6c22"
+        android:textSize="20sp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@+id/passwordETF"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="22dp" />
+
+
+</RelativeLayout>
