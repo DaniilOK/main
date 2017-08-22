@@ -38,4 +38,11 @@
     <string name="only_registered_like_posts">Только зарегистрированные пользователи могут лайкать посты</string>
     <string name="only_registered_dslike_posts">Только зарегистрированные пользователи могут дизлайкать посты</string>
     <string name="show_descr">показать описание</string>
+
+    <string name="forgot_password"><b>Забыли пароль?</b></string>
+    <string name="new_password">Новый пароль</string>
+
+    <string name="reg_wrong_log">Логин должен содержать более 3 символов!</string>
+    <string name="reg_wrong_email">Введите корректный email!</string>
+    <string name="reg_wrong_pass">Пароль должен содержать более 5 символов!</string>
 </resources>

@@ -41,4 +41,8 @@
 
     <string name="forgot_password"><b>Forgot password?</b></string>
     <string name="new_password">New Password</string>
+
+    <string name="reg_wrong_log">Login must be more then 3 symbols!</string>
+    <string name="reg_wrong_email">Input correct email!</string>
+    <string name="reg_wrong_pass">Passwords should be more then 5 symbols!</string>
 </resources>

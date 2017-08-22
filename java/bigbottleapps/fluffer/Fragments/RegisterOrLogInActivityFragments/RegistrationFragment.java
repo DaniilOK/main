@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import java.util.regex.*;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -55,6 +56,62 @@ public class RegistrationFragment extends Fragment {
         wrongTW = (TextView)view.findViewById(R.id.wrongTW);
     }
 
+
+    private void BlockContinue(String reason, EditText field){
+        wrongTW.setText(reason);
+        wrongTW.setVisibility(View.VISIBLE);
+        field.setBackgroundColor(getResources().getColor(R.color.red_wrong));
+        continueB.setEnabled(false);
+    }
+
+    private void UnBlockContinue(EditText field){
+        wrongTW.setVisibility(View.INVISIBLE);
+        field.setBackgroundColor(getResources().getColor(R.color.good));
+        continueB.setEnabled(true);
+    }
+
+    private boolean CheckLogin(){
+        if (loginET.getText().length() < 4){
+            BlockContinue(getResources().getString(R.string.reg_wrong_log), loginET);
+            return false;
+        }
+        else
+            UnBlockContinue(loginET);
+        return true;
+    }
+
+    private boolean CheckEmail(){
+        Pattern p = Pattern.compile("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$");
+        Matcher m = p.matcher(emailET.getText());
+        if (emailET.getText().length() < 6 || !m.find()){
+            BlockContinue(getResources().getString(R.string.reg_wrong_email), emailET);
+            return false;
+        }
+        else
+            UnBlockContinue(emailET);
+        return true;
+    }
+
+    private boolean CheckPassword(){
+        if (passwordET.getText().length() < 6){
+            BlockContinue(getResources().getString(R.string.reg_wrong_pass), passwordET);
+            return false;
+        }
+        else
+            UnBlockContinue(passwordET);
+        return true;
+    }
+
+    private boolean CheckPasswordAgain(){
+        if(!passwordET.getText().toString().equals(passwordAgainET.getText().toString())) {
+            BlockContinue(getResources().getString(R.string.nsame_password), passwordAgainET);
+            return false;
+        }
+        else
+            UnBlockContinue(passwordAgainET);
+        return true;
+    }
+
     public void Init(){
         buttonClickListener = new View.OnClickListener() {
             @Override
@@ -79,15 +136,14 @@ public class RegistrationFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!passwordET.getText().toString().equals(passwordAgainET.getText().toString())) {
-                    wrongTW.setVisibility(View.VISIBLE);
-                    passwordAgainET.setBackgroundColor(getResources().getColor(R.color.red_wrong));
-                    continueB.setEnabled(false);
-                }else {
-                    wrongTW.setVisibility(View.INVISIBLE);
-                    passwordAgainET.setBackgroundColor(getResources().getColor(R.color.good));
-                    continueB.setEnabled(true);
-                }
+                if (!CheckLogin())
+                    return;
+                if (!CheckEmail())
+                    return;
+                if (!CheckPassword())
+                    return;
+                if (!CheckPasswordAgain())
+                    return;
             }
         };
     }
@@ -95,6 +151,9 @@ public class RegistrationFragment extends Fragment {
     public void UISet(){
         passwordET.addTextChangedListener(textWatcher);
         passwordAgainET.addTextChangedListener(textWatcher);
+        loginET.addTextChangedListener(textWatcher);
+        emailET.addTextChangedListener(textWatcher);
+        logInB.addTextChangedListener(textWatcher);
         continueB.setOnClickListener(buttonClickListener);
         logInB.setOnClickListener(logInClickListener);
     }
