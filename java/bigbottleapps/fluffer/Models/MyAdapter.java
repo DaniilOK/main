@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +28,7 @@ import java.util.List;
 
 import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 import bigbottleapps.fluffer.R;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
@@ -156,7 +156,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         dialog.show();
     }
 
-    private void setImage(ImageView iw, String res){
+    private void setImage(CircleImageView iw, String res){
         new DownloadImageTask(iw).execute(res);
     }
 
@@ -216,7 +216,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         TextView txtTitle;
         TextView txtLikes;
         TextView txtDislikes;
-        ImageView imgPhoto;
+        CircleImageView imgPhoto;
         ProgressBar progressBar;
 
         ViewHolder(View itemView) {
@@ -224,15 +224,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             txtLikes = (TextView) itemView.findViewById(R.id.text_likes);
             txtDislikes = (TextView) itemView.findViewById(R.id.text_dislikes);
-            imgPhoto = (ImageView) itemView.findViewById(R.id.list_item_photo);
+            imgPhoto = (CircleImageView) itemView.findViewById(R.id.list_item_photo);
             progressBar = (ProgressBar)itemView.findViewById(R.id.progressBar);
         }
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView iw;
+        CircleImageView iw;
 
-        DownloadImageTask(ImageView iw){
+        DownloadImageTask(CircleImageView iw){
             this.iw = iw;
         }
 
