@@ -153,7 +153,6 @@ public class RegistrationFragment extends Fragment {
         passwordAgainET.addTextChangedListener(textWatcher);
         loginET.addTextChangedListener(textWatcher);
         emailET.addTextChangedListener(textWatcher);
-        logInB.addTextChangedListener(textWatcher);
         continueB.setOnClickListener(buttonClickListener);
         logInB.setOnClickListener(logInClickListener);
     }
