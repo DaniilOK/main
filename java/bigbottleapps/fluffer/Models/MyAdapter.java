@@ -141,7 +141,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         builder.setPositiveButton(mContext.getString(R.string.registration), new DialogInterface.OnClickListener() { // Кнопка ОК
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mContext.startActivity(new Intent(mContext, RegisterOrLogInActivity.class));
+                Intent intent = new Intent(mContext, RegisterOrLogInActivity.class);
+                intent.putExtra("from", "list");
+                mContext.startActivity(intent);
             }
         });
         builder.setNegativeButton(mContext.getString(R.string.cancel), new DialogInterface.OnClickListener() {

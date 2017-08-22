@@ -94,10 +94,10 @@ public class ForgetFragment extends Fragment {
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
                 dialog.dismiss();
                 if(jsonObject.getString("email").equals("email")){
-                    setToast("Messsage was sent to your email");
+                    setToast(getString(R.string.message_was_sent));
                     ((RegisterOrLogInActivity)getActivity()).setLogInFragment(login_or_email, "");
                 }else{
-                    setToast("Wrong login or email");
+                    setToast(getString(R.string.something_wrong));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

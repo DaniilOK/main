@@ -15,14 +15,15 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_LOE = "loe";
     public static final String APP_PREFERENCES_PASSWORD = "password";
-    public static final String APP_PREFERENCES_LOGGED = "logged";
     public static final String APP_PREFERENCES_ID = "id";
+    public static final String APP_PREFERENCES_FROM = "from";
     SharedPreferences mSettings;
+    public String from;
 
     @Override
     public void onBackPressed() {
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(APP_PREFERENCES_LOGGED, "action_list");
+        editor.putString(APP_PREFERENCES_FROM, "list");
         editor.apply();
         finish();
     }
@@ -32,6 +33,7 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_or_log_in);
         setFragment(new LogInFragment());
+        from = getIntent().getExtras().getString("from");
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
@@ -57,6 +59,7 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
         editor.putString(APP_PREFERENCES_LOE, loginOrEmail);
         editor.putString(APP_PREFERENCES_PASSWORD, password);
         editor.putString(APP_PREFERENCES_ID, id);
+        editor.putString(APP_PREFERENCES_FROM, from);
         editor.apply();
     }
 
@@ -67,12 +70,6 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
 
     public void setFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-    }
-
-    public void setLogged(){
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(APP_PREFERENCES_LOGGED, "new_action");
-        editor.apply();
     }
 
     public static boolean hasConnection(final Context context) {

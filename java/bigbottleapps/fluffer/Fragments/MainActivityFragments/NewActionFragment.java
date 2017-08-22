@@ -118,16 +118,18 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     public void adding(){
         if (!mSettings.contains(APP_PREFERENCES_LOE)) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Registration");
-            builder.setMessage("Only registered users can add events");
+            builder.setTitle(getActivity().getString(R.string.registration));
+            builder.setMessage(getActivity().getString(R.string.only_registered_events));
             builder.setCancelable(false);
-            builder.setPositiveButton("Registration", new DialogInterface.OnClickListener() { // Кнопка ОК
+            builder.setPositiveButton(getActivity().getString(R.string.registration), new DialogInterface.OnClickListener() { // Кнопка ОК
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getActivity().getApplicationContext(), RegisterOrLogInActivity.class));
+                    Intent intent = new Intent(getActivity(), RegisterOrLogInActivity.class);
+                    intent.putExtra("from", "new_action");
+                    startActivity(intent);
                 }
             });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getActivity().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((MainActivity)getActivity()).navigation.setSelectedItemId(R.id.navigation_home);

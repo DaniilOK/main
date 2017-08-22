@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -137,7 +136,6 @@ public class LogInFragment extends Fragment{
                 switch (Integer.parseInt(jsonObject.getString("answer"))){
                     case 0:
                         setSnackBar(getResources().getString(R.string.logged_in));
-                        ((RegisterOrLogInActivity)getActivity()).setLogged();
                         ((RegisterOrLogInActivity)getActivity()).startApp(loginOrEmail, password, jsonObject.getString("_id"));
                         break;
                     case 1:

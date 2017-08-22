@@ -16,7 +16,7 @@ import bigbottleapps.fluffer.R;
 
 public class MainActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES = "users";
-    public static final String APP_PREFERENCES_LOGGED = "logged";
+    public static final String APP_PREFERENCES_FROM = "from";
     SharedPreferences mSettings;
     public BottomNavigationView navigation;
 
@@ -24,10 +24,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        if((mSettings!=null)&&(mSettings.contains(APP_PREFERENCES_LOGGED)))
-            if (mSettings.getString(APP_PREFERENCES_LOGGED, "action_list").equals("action_list")) {
+        if((mSettings!=null)&&(mSettings.contains(APP_PREFERENCES_FROM)))
+            if (mSettings.getString(APP_PREFERENCES_FROM, "list").equals("list")) {
                 navigation.setSelectedItemId(R.id.navigation_home);
             }
+
     }
 
     @Override
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_map:
                     return true;
                 case R.id.navigation_add:
+                    mSettings.edit().putString(APP_PREFERENCES_FROM, "new").apply();
                     setNewActionFragment();
                     return true;
                 case R.id.navigation_settings:

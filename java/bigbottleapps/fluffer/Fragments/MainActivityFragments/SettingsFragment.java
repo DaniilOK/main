@@ -15,7 +15,6 @@ import bigbottleapps.fluffer.R;
 public class SettingsFragment extends Fragment {
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_LOE = "loe";
-    public static final String APP_PREFERENCES_LOGGED = "logged";
     private SharedPreferences mSettings;
 
     @Nullable
@@ -29,15 +28,6 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 if (mSettings.contains(APP_PREFERENCES_LOE)) {
                     mSettings.edit().clear().commit();
-                }
-            }
-        });
-        Button clearLogged = (Button)view.findViewById(R.id.clear_logged);
-        clearLogged.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mSettings.contains(APP_PREFERENCES_LOGGED)){
-                    mSettings.edit().remove(APP_PREFERENCES_LOGGED).commit();
                 }
             }
         });
