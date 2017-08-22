@@ -26,7 +26,7 @@ import java.net.URLEncoder;
 import bigbottleapps.fluffer.R;
 import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 
-public class RegistrationFragment extends Fragment {
+public class RegistrationFragment extends Fragment{
 
     private EditText loginET, emailET, passwordET, passwordAgainET;
     private TextView wrongTW;
@@ -58,12 +58,19 @@ public class RegistrationFragment extends Fragment {
 
 
     private void BlockContinue(String reason, EditText field){
+        UnBlockAll();
         wrongTW.setText(reason);
         wrongTW.setVisibility(View.VISIBLE);
         field.setBackgroundColor(getResources().getColor(R.color.red_wrong));
         continueB.setEnabled(false);
     }
 
+    private void UnBlockAll(){
+        loginET.setBackgroundColor(getResources().getColor(R.color.good));
+        emailET.setBackgroundColor(getResources().getColor(R.color.good));
+        passwordET.setBackgroundColor(getResources().getColor(R.color.good));
+        passwordAgainET.setBackgroundColor(getResources().getColor(R.color.good));
+    }
     private void UnBlockContinue(EditText field){
         wrongTW.setVisibility(View.INVISIBLE);
         field.setBackgroundColor(getResources().getColor(R.color.good));
