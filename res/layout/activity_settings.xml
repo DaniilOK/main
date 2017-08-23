@@ -11,6 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/clr_logged"
-        android:visibility="gone"
-        android:id="@+id/clear_logged"/>
+
+        android:id="@+id/message"/>
 </LinearLayout>
