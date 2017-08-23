@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name="bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity"/>
+        <activity android:name=".Controllers.ActionActivity"/>
     </application>
 
 </manifest>
