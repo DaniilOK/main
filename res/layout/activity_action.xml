@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/title"
         android:textColor="#555"
-        android:text="sdgfafsdf"
+
         android:textSize="20sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -59,8 +59,7 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
-                android:progress="50" />
+            />
 
         </LinearLayout>
         <LinearLayout

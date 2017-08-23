@@ -21,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.R;
 
 public class SettingsFragment extends Fragment {

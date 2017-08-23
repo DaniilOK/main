@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import bigbottleapps.fluffer.Fragments.MainActivityFragments.*;
+import bigbottleapps.fluffer.Fragments.RegisterOrLogInActivityFragments.ForgetFragment;
 import bigbottleapps.fluffer.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -97,5 +98,9 @@ public class MainActivity extends AppCompatActivity {
         }
         wifiInfo = cm.getActiveNetworkInfo();
         return wifiInfo != null && wifiInfo.isConnected();
+    }
+
+    public void setForgetFragment(){
+        setFragment(new ForgetFragment());
     }
 }
