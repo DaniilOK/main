@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.R;
 
 public class SendTextFragment extends Fragment {
@@ -77,8 +78,10 @@ public class SendTextFragment extends Fragment {
     private class MESSAGE_SEND extends AsyncTask<Void, Void, Integer> {
         @Override
         protected void onPostExecute(Integer integer) {
-            if (res == 200)
+            if (res == 200) {
                 ShowToast(getResources().getString(R.string.msg_send_sucs), getContext());
+                ((MainActivity)getActivity()).setSettingsFragment();
+            }
             else
                 ShowToast(getResources().getString(R.string.something_wrong), getContext());
         }
