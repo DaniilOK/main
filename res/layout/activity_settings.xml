@@ -5,11 +5,21 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/button_login"
+        android:id="@+id/log_in"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/log_out"
         android:id="@+id/log_out"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/clr_logged"
-        android:id="@+id/message"/>
+        android:text="@string/change_pass"
+        android:id="@+id/change_pass"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contuct_us"
+        android:id="@+id/send_msg"/>
 </LinearLayout>

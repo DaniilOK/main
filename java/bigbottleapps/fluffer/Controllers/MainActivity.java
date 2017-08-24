@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void setSendTextFragment(){
+        setFragment(new SendTextFragment());
+    }
+
     public void setFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
