@@ -53,4 +53,7 @@
     <string name="send">send</string>
     <string name="msg_send_sucs">Message send successfully!</string>
     <string name="short_msg">Message must be more then 8 simbols!</string>
+
+    <string name="forget_email">Enter you accounts e-mail</string>
+    <string name="forget_password">Enter new password</string>
 </resources>

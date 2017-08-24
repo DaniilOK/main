@@ -19,7 +19,7 @@
     <string name="log_out">Выход</string>
     <string name="clr_logged">Clear logged</string>
     <string name="choose_image">Выбрать изображение</string>
-    <string name="upload_image">Загрудить изображение</string>
+    <string name="upload_image">Загрузить изображение</string>
     <string name="title">Название</string>
     <string name="only_registered_events">Только зарегистрированные пользователи могуд добавляеть события</string>
     <string name="cancel">Отмена</string>
@@ -53,4 +53,7 @@
     <string name="send">отправить</string>
     <string name="msg_send_sucs">Сообщение отправлено успешно!</string>
     <string name="short_msg">Сообщение должно состоять более чем из 8 символов!</string>
+
+    <string name="forget_email">Введите e-mail, к которому привязан Ваш аккаунт</string>
+    <string name="forget_password">Введите новый пароль</string>
 </resources>

@@ -5,12 +5,14 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/progress_bar</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/progress_bar</item>
     </style>
 
     <style name="Progress" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/progress_bar</item>
     </style>
+    
+
 
 
 </resources>

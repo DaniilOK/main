@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:padding="8dp"
+    tools:context="bigbottleapps.fluffer.Controllers.MainActivity">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"
+        android:scaleType="center"
+        android:src="@drawable/ic_add_a_photo_black_24dp"
+        android:id="@+id/imageView2" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+
+        android:id="@+id/imageView"
+        android:visibility="visible"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/title"
+        android:id="@+id/action_title"
+        android:visibility="visible"
+
+        android:inputType="textMultiLine"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_image"
+        android:id="@+id/uploadBn"
+        android:drawableLeft="@drawable/ic_file_upload_black_24dp"
+        android:visibility="visible"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/action_title"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>

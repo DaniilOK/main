@@ -5,12 +5,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -23,9 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
-import bigbottleapps.fluffer.Fragments.MainActivityFragments.SettingsFragment;
 import bigbottleapps.fluffer.R;
 
 public class ForgetFragment extends Fragment {
@@ -40,7 +38,7 @@ public class ForgetFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.forget_activity, container, false);
+        View view = inflater.inflate(R.layout.activity_forget, container, false);
         Initialization(view);
         return view;
     }
@@ -50,6 +48,8 @@ public class ForgetFragment extends Fragment {
         newPasswordET = (EditText)view.findViewById(R.id.passwordETF);
         newPasswordET.setVisibility(View.INVISIBLE);
         continueB = (Button)view.findViewById(R.id.continueBF);
+        TextView text = (TextView)view.findViewById(R.id.text);
+        text.setText(getString(R.string.forget_email));
         btnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {

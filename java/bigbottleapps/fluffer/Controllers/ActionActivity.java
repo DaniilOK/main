@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class ActionActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        user_id = mSettings.getString(APP_PREFERENCES_ID, "0");
+
         if((mSettings!=null)&&(mSettings.contains(APP_PREFERENCES_FROM)))
             if (mSettings.getString(APP_PREFERENCES_FROM, "action").equals("action")) {
                 new SELECT().execute();
@@ -66,6 +67,8 @@ public class ActionActivity extends AppCompatActivity {
         title = (TextView)findViewById(R.id.title);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         iw = (CircleImageView)findViewById(R.id.image);
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        user_id = mSettings.getString(APP_PREFERENCES_ID, "0");
         likes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,6 +140,7 @@ public class ActionActivity extends AppCompatActivity {
             }
         });
         progressBar.setProgress(calcProgress(Integer.parseInt(l), Integer.parseInt(d)));
+        Log.d("user_check", ans+"");
         switch (ans) {
             case 0:
                 setLikeImage(getResources().getDrawable(R.drawable.ic_thumb_up_black_24dp));
@@ -147,6 +151,7 @@ public class ActionActivity extends AppCompatActivity {
                 setDislikeImage(getResources().getDrawable(R.drawable.ic_thumb_down_black_24dp));
                 break;
             case 2:
+
                 setLikeImage(getResources().getDrawable(R.drawable.ic_thumb_up_blue_24dp));
                 setDislikeImage(getResources().getDrawable(R.drawable.ic_thumb_down_black_24dp));
                 break;
@@ -187,6 +192,7 @@ public class ActionActivity extends AppCompatActivity {
         protected Integer doInBackground(Void... params) {
             try {
                 URL url = new URL(mServerUrl + "get_by_id.php?id="+id+"&user_id="+user_id);
+                Log.d("check1", url.toString());
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
@@ -217,7 +223,7 @@ public class ActionActivity extends AppCompatActivity {
                         jsonObject = jsonArray.getJSONObject(i);
                         l = jsonObject.getString("likes");
                         d = jsonObject.getString("dislikes");
-                        title.setText(jsonObject.getString("title"));
+                        setTitle(jsonObject.getString("title"));
                         setImage(iw, jsonObject.getString("photo_url"));
                         int ans = Integer.parseInt(jsonObject.getString("this"));
                         setLikesAndDislikes(ans);
@@ -274,7 +280,14 @@ public class ActionActivity extends AppCompatActivity {
         new DownloadImageTask(iw).execute(res);
     }
 
-
+    private void setTitle(final String title_text){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                title.setText(title_text);
+            }
+        });
+    }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         CircleImageView iw;
