@@ -5,5 +5,9 @@
     <color name="colorAccent">#0d00ff</color>
     <color name="red_wrong">#f00</color>
     <color name="good">#bbb</color>
+    <color name="selected">#fff</color>
+    <color name="navigation_drawer">#555</color>
     <color name="blue">#45d3ff</color>
+    <color name="progress_bar">#ff6f00</color>
+    <color name="progress_bar_dark">#44e65100</color>
 </resources>
