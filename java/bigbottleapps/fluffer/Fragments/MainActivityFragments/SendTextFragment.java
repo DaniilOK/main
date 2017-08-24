@@ -27,7 +27,7 @@ public class SendTextFragment extends Fragment {
     private HttpURLConnection conn;
     private int res;
     private static final String mServerUrl = "http://posovetu.vh100.hosterby.com/";
-    private String message = "";
+    private String message = "", login = "";
 
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_LOE = "loe";
@@ -59,7 +59,7 @@ public class SendTextFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 message = textTV.getText().toString();
-                String login ="";
+                login ="null";
                 if (mSettings.contains(APP_PREFERENCES_LOE))
                     login = mSettings.getString(APP_PREFERENCES_LOE, "");
 
@@ -89,7 +89,8 @@ public class SendTextFragment extends Fragment {
         protected Integer doInBackground(Void... params) {
 
             try {
-                URL url = new URL(mServerUrl + "mail_developers.php?text="+ URLEncoder.encode(message, "UTF-8"));
+                URL url = new URL(mServerUrl + "mail_developers.php?text="+ URLEncoder.encode(message, "UTF-8")+
+                "&login="+URLEncoder.encode(login, "UTF-8"));
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
