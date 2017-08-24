@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#bbb"
-        android:hint="@string/login_email"
+        android:hint="@string/tip_login"
         android:padding="16dp"
         android:textSize="20sp"
         android:inputType="textEmailAddress"

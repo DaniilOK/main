@@ -48,12 +48,13 @@ public class ForgetFragment extends Fragment {
     public void Initialization(View view){
         loginOrEmailET = (EditText)view.findViewById(R.id.loginoremailETF);
         newPasswordET = (EditText)view.findViewById(R.id.passwordETF);
+        newPasswordET.setVisibility(View.INVISIBLE);
         continueB = (Button)view.findViewById(R.id.continueBF);
         btnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login_or_email = loginOrEmailET.getText().toString();
-                new_password = newPasswordET.getText().toString();
+                new_password = System.currentTimeMillis()+"";
                 new NEWPASSWORD().execute();
             }
         };
@@ -101,18 +102,19 @@ public class ForgetFragment extends Fragment {
                 }else{
                     setToast(getString(R.string.something_wrong));
                 }
+                ((RegisterOrLogInActivity)getActivity()).setLogInFragment(login_or_email, "");
             } catch (Exception e) {
                 e.printStackTrace();
                 dialog.dismiss();
-               setToast(getString(R.string.something_wrong));
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new NEWPASSWORD().execute();
+                    }
+                });
             } finally {
                 dialog.dismiss();
                 conn.disconnect();
-                    try {
-                        ((RegisterOrLogInActivity)getActivity()).setLogInFragment(login_or_email, "");
-                    }catch (Exception e){
-                        Log.d("q11", "check");
-                    }
             }
             return res;
         }

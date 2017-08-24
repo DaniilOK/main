@@ -28,10 +28,6 @@ public class MainActivity extends AppCompatActivity {
             if (mSettings.getString(APP_PREFERENCES_FROM, "list").equals("list")) {
                 navigation.setSelectedItemId(R.id.navigation_home);
             }
-            if(mSettings.getString(APP_PREFERENCES_FROM, "settings").equals("settings")) {
-                navigation.setSelectedItemId(R.id.navigation_settings);
-            }
-
     }
 
     @Override
