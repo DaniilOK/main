@@ -7,7 +7,7 @@
     <color name="good">#bbb</color>
     <color name="background_color">#666</color>
     <color name="recycler_item">#555</color>
-    <color name="blue">#651fff</color>
+    <color name="blue">#00fff2</color>
     <color name="progress_bar">#ffa000</color>
     <color name="progress_bar_dark">#44e65100</color>
     <color name="selected">#ffa000</color>

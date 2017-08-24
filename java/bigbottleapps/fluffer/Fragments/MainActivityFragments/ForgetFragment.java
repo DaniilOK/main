@@ -1,6 +1,8 @@
-package bigbottleapps.fluffer.Fragments.RegisterOrLogInActivityFragments;
+package bigbottleapps.fluffer.Fragments.MainActivityFragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,17 +27,24 @@ import java.net.URLEncoder;
 
 import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
-import bigbottleapps.fluffer.Fragments.MainActivityFragments.SettingsFragment;
 import bigbottleapps.fluffer.R;
+
+/**
+ * Created by mikhail on 24.08.17.
+ */
 
 public class ForgetFragment extends Fragment {
     EditText loginOrEmailET, newPasswordET;
     Button continueB;
     View.OnClickListener btnClickListener;
-    String mServerUrl = "http://posovetu.vh100.hosterby.com/", login_or_email, new_password, answer;
+    String mServerUrl = "http://posovetu.vh100.hosterby.com/", new_password, answer;
     HttpURLConnection conn;
     Integer res;
     ProgressDialog dialog;
+    public static final String APP_PREFERENCES = "users";
+    public static final String APP_PREFERENCES_LOE = "loe";
+    private SharedPreferences mSettings;
+
 
     @Nullable
     @Override
@@ -47,17 +56,18 @@ public class ForgetFragment extends Fragment {
 
     public void Initialization(View view){
         loginOrEmailET = (EditText)view.findViewById(R.id.loginoremailETF);
+        loginOrEmailET.setVisibility(View.INVISIBLE);
         newPasswordET = (EditText)view.findViewById(R.id.passwordETF);
         continueB = (Button)view.findViewById(R.id.continueBF);
         btnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login_or_email = loginOrEmailET.getText().toString();
                 new_password = newPasswordET.getText().toString();
                 new NEWPASSWORD().execute();
             }
         };
         continueB.setOnClickListener(btnClickListener);
+        mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     private class NEWPASSWORD extends AsyncTask<Void, Void, Integer> {
@@ -75,7 +85,7 @@ public class ForgetFragment extends Fragment {
         protected Integer doInBackground(Void... params) {
 
             try {
-                String user_url = mServerUrl + "mail.php?loginoremail=" + URLEncoder.encode(login_or_email.trim(), "UTF-8")+
+                String user_url = mServerUrl + "mail.php?loginoremail=" + URLEncoder.encode(mSettings.getString(APP_PREFERENCES_LOE, "").trim(), "UTF-8")+
                         "&newpassword="+URLEncoder.encode(new_password.trim(), "UTF-8");
                 conn = (HttpURLConnection) new URL(user_url).openConnection();
                 conn.setConnectTimeout(10000);
@@ -104,15 +114,15 @@ public class ForgetFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
                 dialog.dismiss();
-               setToast(getString(R.string.something_wrong));
+                setToast(getString(R.string.something_wrong));
             } finally {
                 dialog.dismiss();
                 conn.disconnect();
-                    try {
-                        ((RegisterOrLogInActivity)getActivity()).setLogInFragment(login_or_email, "");
-                    }catch (Exception e){
-                        Log.d("q11", "check");
-                    }
+                try {
+                    ((MainActivity)getActivity()).setSettingsFragment();
+                }catch (Exception e){
+                    Log.d("q11", "check");
+                }
             }
             return res;
         }

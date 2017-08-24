@@ -35,8 +35,10 @@ public class SettingsFragment extends Fragment {
 
         if (mSettings.contains(APP_PREFERENCES_LOE))
             loginB.setVisibility(View.GONE);
-        else
+        else {
             logoutB.setVisibility(View.GONE);
+            changepassB.setVisibility(View.GONE);
+        }
 
         logoutB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +46,7 @@ public class SettingsFragment extends Fragment {
                 mSettings.edit().clear().commit();
                 loginB.setVisibility(View.VISIBLE);
                 logoutB.setVisibility(View.GONE);
+                changepassB.setVisibility(View.GONE);
             }
         });
 
@@ -51,6 +54,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 loginB.setVisibility(View.GONE);
+                changepassB.setVisibility(View.VISIBLE);
                 logoutB.setVisibility(View.VISIBLE);
                 Intent intent = new Intent(getActivity().getApplicationContext(), RegisterOrLogInActivity.class);
                 intent.putExtra("from","settings");

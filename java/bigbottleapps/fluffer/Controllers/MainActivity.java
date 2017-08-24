@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import bigbottleapps.fluffer.Fragments.MainActivityFragments.*;
-import bigbottleapps.fluffer.Fragments.RegisterOrLogInActivityFragments.ForgetFragment;
 import bigbottleapps.fluffer.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         if((mSettings!=null)&&(mSettings.contains(APP_PREFERENCES_FROM)))
             if (mSettings.getString(APP_PREFERENCES_FROM, "list").equals("list")) {
                 navigation.setSelectedItemId(R.id.navigation_home);
+            }
+            if(mSettings.getString(APP_PREFERENCES_FROM, "settings").equals("settings")) {
+                navigation.setSelectedItemId(R.id.navigation_settings);
             }
 
     }
@@ -84,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSendTextFragment(){
         setFragment(new SendTextFragment());
+    }
+
+    public void setSettingsFragment(){
+        setFragment(new SettingsFragment());
     }
 
     public void setFragment(Fragment fragment){
