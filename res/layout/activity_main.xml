@@ -28,7 +28,7 @@
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/navigation"
-        app:itemBackground="@color/navigation_drawer"
+        app:itemBackground="@color/background_color"
         app:itemIconTint="@drawable/bottom_navigation_item_background_colors"
         app:itemTextColor="@drawable/bottom_navigation_item_background_colors"
         />

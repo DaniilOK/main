@@ -6,8 +6,9 @@
     <color name="red_wrong">#f00</color>
     <color name="good">#bbb</color>
     <color name="selected">#fff</color>
-    <color name="navigation_drawer">#555</color>
+    <color name="background_color">#9c27b0</color>
+    <color name="recycler_item">#6a1b9a</color>
     <color name="blue">#45d3ff</color>
-    <color name="progress_bar">#ff6f00</color>
+    <color name="progress_bar">#ffa726</color>
     <color name="progress_bar_dark">#44e65100</color>
 </resources>
