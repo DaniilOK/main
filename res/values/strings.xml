@@ -46,4 +46,11 @@
     <string name="reg_wrong_email">Input correct email!</string>
     <string name="reg_wrong_pass">Passwords should be more then 5 symbols!</string>
     <string name="message_was_sent">Messsage was sent to your email</string>
+
+    <string name="change_pass">change pass</string>
+    <string name="contuct_us">Contact us</string>
+    <string name="input_text">Input text</string>
+    <string name="send">send</string>
+    <string name="msg_send_sucs">Message send successfully!</string>
+    <string name="short_msg">Message must be more then 8 simbols!</string>
 </resources>

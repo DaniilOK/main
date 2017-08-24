@@ -45,4 +45,12 @@
     <string name="reg_wrong_log">Логин должен содержать более 3 символов!</string>
     <string name="reg_wrong_email">Введите корректный email!</string>
     <string name="reg_wrong_pass">Пароль должен содержать более 5 символов!</string>
+    <string name="message_was_sent">Сообщение было успешно отправлено на Вашу почту!</string>
+
+    <string name="change_pass">изменить пароль</string>
+    <string name="contuct_us">Свяжитесь с нами</string>
+    <string name="input_text">Введите текст</string>
+    <string name="send">отправить</string>
+    <string name="msg_send_sucs">Сообщение отправлено успешно!</string>
+    <string name="short_msg">Сообщение должно состоять более чем из 8 символов!</string>
 </resources>
