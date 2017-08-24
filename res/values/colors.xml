@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#666</color>
     <color name="colorAccent">#0d00ff</color>
     <color name="red_wrong">#f00</color>
     <color name="good">#bbb</color>
-    <color name="selected">#fff</color>
-    <color name="background_color">#9c27b0</color>
-    <color name="recycler_item">#6a1b9a</color>
-    <color name="blue">#45d3ff</color>
-    <color name="progress_bar">#ffa726</color>
+    <color name="background_color">#666</color>
+    <color name="recycler_item">#555</color>
+    <color name="blue">#651fff</color>
+    <color name="progress_bar">#ffa000</color>
     <color name="progress_bar_dark">#44e65100</color>
+    <color name="selected">#ffa000</color>
+    <color name="non_selected">#ffffff</color>
+    <color name="text_color">#fff</color>
 </resources>

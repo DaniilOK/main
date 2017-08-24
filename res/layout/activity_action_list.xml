@@ -5,10 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Controllers.MainActivity"
-    android:paddingLeft="4dp"
-    android:background="@color/background_color"
-    android:paddingRight="4dp"
-    android:paddingTop="4dp">
+   android:background="@color/background_color">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"
