@@ -44,7 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
         holder.progressBar.setProgress(itemList.getProgress());
         holder.percent.setText(itemList.getProgress()+"%");
-        setImage(holder.imgPhoto, itemList.getImage());//Запускает асинхронную загрузку изображения
+       //Запускает асинхронную загрузку изображения
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
@@ -59,6 +59,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         holder.percent.setOnClickListener(clickListener);
         holder.imgPhoto.setOnClickListener(clickListener);
         holder.progressBar.setOnClickListener(clickListener);
+
+
+        new AsyncTask<ViewHolder, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(ViewHolder... params) {
+                setImage(holder.imgPhoto, itemList.getImage());
+                return null;
+            }
+        }.execute(holder);
+
     }
 
 
@@ -67,6 +77,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     public int getItemCount() {
         return listItems.size();
     }
+
+
 
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView txtTitle;

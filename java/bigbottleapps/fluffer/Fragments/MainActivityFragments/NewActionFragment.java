@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -93,13 +95,18 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
             Uri path = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), path);
-                bitmap.setDensity(0);
+                //bitmap =  BitmapFactory.decodeFile(path.toString());
+//                bitmap.setHeight(120);
+//                bitmap.setWidth(120);
                 mImageView.setImageBitmap(bitmap);
+//                Toast.makeText(getActivity().getApplicationContext(), "Размеры ImageView: " + String.valueOf(mImageView.getWidth())
+//                        + " : " + String.valueOf(mImageView.getHeight()), Toast.LENGTH_LONG).show();
+
                 mImageView.setSystemUiVisibility(View.VISIBLE);
                 mImageView.setVisibility(View.VISIBLE);
                 mUploadBn.setVisibility(View.VISIBLE);
                 mTitle.setVisibility(View.VISIBLE);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

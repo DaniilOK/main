@@ -130,14 +130,12 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                         jsonObject = jsonArray.getJSONObject(i);
                         String action_id = jsonObject.getString("_id");
                         String title = jsonObject.getString("title");
-                        String description = jsonObject.getString("description");
                         String photo_url = jsonObject.getString("photo_url");
                         String likes = jsonObject.getString("likes");
                         String dislikes = jsonObject.getString("dislikes");
-                        int curr = Integer.parseInt(jsonObject.getString("this"));
                         int l = Integer.parseInt(likes);
                         int d = Integer.parseInt(dislikes);
-                        listItems.add(0, new RecyclerItem(title, l, d, photo_url, description, action_id, user_id, upBlack, upBlue, downBlack, downBlue, curr));
+                        listItems.add(0, new RecyclerItem(title, l, d, photo_url, action_id));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

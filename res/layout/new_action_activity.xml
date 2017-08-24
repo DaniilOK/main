@@ -35,6 +35,8 @@
         android:hint="@string/title"
         android:layout_below="@id/uploadBn"
         android:id="@+id/action_title"
-        android:visibility="gone"/>
+        android:visibility="gone"
+
+        android:inputType="textMultiLine"/>
 
 </RelativeLayout>
