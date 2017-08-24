@@ -87,6 +87,7 @@ public class ForgetFragment extends Fragment {
             try {
                 String user_url = mServerUrl + "mail.php?loginoremail=" + URLEncoder.encode(mSettings.getString(APP_PREFERENCES_LOE, "").trim(), "UTF-8")+
                         "&newpassword="+URLEncoder.encode(new_password.trim(), "UTF-8");
+                Log.d("user_url", user_url);
                 conn = (HttpURLConnection) new URL(user_url).openConnection();
                 conn.setConnectTimeout(10000);
                 conn.setRequestMethod("POST");
