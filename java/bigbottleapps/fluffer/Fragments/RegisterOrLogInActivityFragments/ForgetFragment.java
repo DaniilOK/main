@@ -22,7 +22,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
+import bigbottleapps.fluffer.Fragments.MainActivityFragments.SettingsFragment;
 import bigbottleapps.fluffer.R;
 
 public class ForgetFragment extends Fragment {
@@ -106,6 +108,11 @@ public class ForgetFragment extends Fragment {
             } finally {
                 dialog.dismiss();
                 conn.disconnect();
+                try{
+                    ((MainActivity)getActivity()).setFragment(new SettingsFragment());
+                }catch (Exception e){
+
+                }
             }
             return res;
         }
