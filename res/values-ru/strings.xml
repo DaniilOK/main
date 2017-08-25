@@ -19,9 +19,9 @@
     <string name="log_out">Выход</string>
     <string name="clr_logged">Clear logged</string>
     <string name="choose_image">Выбрать изображение</string>
-    <string name="upload_image">Загрузить изображение</string>
+    <string name="add_action_button">Добавить событие</string>
     <string name="title">Название</string>
-    <string name="only_registered_events">Только зарегистрированные пользователи могуд добавляеть события</string>
+    <string name="only_registered_events">Добавлять события могут только зарегистрированные пользователи</string>
     <string name="cancel">Отмена</string>
     <string name="intern_trouble">Проблемы с загрузкой... \nПроверьте ваше интернет соединение</string>
     <string name="wait_loading">Загрузка. Пожалуйста подождите...</string>
@@ -56,4 +56,17 @@
 
     <string name="forget_email">Введите e-mail, к которому привязан Ваш аккаунт</string>
     <string name="forget_password">Введите новый пароль</string>
+
+    <string-array name="typelist">
+        <item>Тип события</item>
+        <item>Еда</item>
+        <item>Акции и скидки</item>
+        <item>Уличное искусство</item>
+    </string-array>
+
+    <string name="set_type">Пожалуйста, выберите тип для Вашего события!</string>
+    <string name="set_title">Пожалуйста, введите название для Вашего события!</string>
+    <string name="set_image">Пожалуйста, веберите изображение для Вашего события!</string>
+    <string name="input_login">Пожалуйста, введите логин!</string>
+    <string name="input_password">Пожалуйста, введите пароль!</string>
 </resources>

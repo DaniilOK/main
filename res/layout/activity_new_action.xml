@@ -25,29 +25,52 @@
 
         android:id="@+id/imageView"
         android:visibility="visible"/>
-
+    <View
+        android:id="@+id/separator1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/imageView"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/good" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/title"
         android:id="@+id/action_title"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
         android:visibility="visible"
-
+        android:backgroundTint="@color/progress_bar"
         android:inputType="textMultiLine"
+        android:textColorHint="@color/text_color"
+        android:textColor="@color/text_color"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/imageView2"
+        android:layout_below="@+id/imageView"
         android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/upload_image"
+        android:text="@string/add_action_button"
         android:id="@+id/uploadBn"
         android:drawableLeft="@drawable/ic_file_upload_black_24dp"
         android:visibility="visible"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/action_title"
+        android:layout_below="@+id/spinner"
         android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_marginLeft="4dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/action_title"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
 
 
 </RelativeLayout>

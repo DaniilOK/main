@@ -11,15 +11,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -53,17 +57,17 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     private EditText mTitle;
     private CircleImageView mImageView;
     private final int IMG_REQUEST = 1;
-    private Bitmap bitmap;
+    private Bitmap bitmap = null;
     private HttpURLConnection conn;
-    private String mServerUrl = "http://posovetu.vh100.hosterby.com/";
+    private String mServerUrl = "http://posovetu.vh100.hosterby.com/", typeList[], type = null, unique;
     private Integer res;
     ProgressDialog dialog;
-    private String unique = String.valueOf(System.currentTimeMillis());
     SharedPreferences mSettings;
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_LOE = "loe";
     public final static String APP_PREFERENCES_PASSWORD = "password";
     public static final String APP_PREFERENCES_ID = "id";
+
 
     @Nullable
     @Override
@@ -77,7 +81,6 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
             case R.id.imageView:
                 selectImage();
                 break;
@@ -106,12 +109,45 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     }
 
     private void InitializeUI(View view){
+        unique = String.valueOf(System.currentTimeMillis());
+        typeList = getActivity().getResources().getStringArray(R.array.typelist);
         mUploadBn = (Button) view.findViewById(R.id.uploadBn);
         mImageView = (CircleImageView) view.findViewById(R.id.imageView);
         mTitle = (EditText)view.findViewById(R.id.action_title);
         mImageView.setOnClickListener(this);
         mUploadBn.setOnClickListener(this);
         mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        final Spinner spinner = (Spinner)view.findViewById(R.id.spinner);
+
+        MyCustomAdapter adapter = new MyCustomAdapter(getActivity(),
+                R.layout.spinner_element, typeList);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0, true);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                switch (pos){
+                    case 0:
+                        type = null;
+                        break;
+                    case 1:
+                        type = "food";
+                        break;
+                    case 2:
+                        type = "sales";
+                        break;
+                    case 3:
+                        type = "art";
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
     }
 
     public void adding(){
@@ -150,41 +186,51 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
 
     private void uploadImage(){
         String mUploadUrl = mServerUrl+"ImageUpload.php";
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, mUploadUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String Response = jsonObject.getString("response");
-                            Toast.makeText(getActivity(), Response, Toast.LENGTH_SHORT).show();
-                            new INSERTtoChat().execute();
-                        } catch (JSONException e) {
-                            Toast.makeText(getActivity(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error){
-                Toast.makeText(getActivity(), "Some errors while loading... Please, try again", Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("name", (mTitle.getText().toString()+unique).trim());
-                params.put("image", imageToString(bitmap));
-                return params;
-            }
-        };
-        try {
-            Volley.newRequestQueue(getActivity()).add(stringRequest);
-        }catch (Exception e){
+        if(type == null){
             dialog.dismiss();
-            Toast.makeText(getActivity(), getResources().getString(R.string.intern_trouble), Toast.LENGTH_SHORT).show();
+            Snackbar.make(getView(), getString(R.string.set_type), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }if(mTitle.getText().toString().equals("")) {
+            Snackbar.make(getView(), getString(R.string.set_title), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            dialog.dismiss();
+        }if(bitmap == null) {
+            Snackbar.make(getView(), getString(R.string.set_image), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            dialog.dismiss();
+        }else {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, mUploadUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                String Response = jsonObject.getString("response");
+                                Toast.makeText(getActivity(), Response, Toast.LENGTH_SHORT).show();
+                                new UPLOAD_TO_SERVER().execute();
+                            } catch (JSONException e) {
+                                Toast.makeText(getActivity(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getActivity(), "Some errors while loading... Please, try again", Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("name", (mTitle.getText().toString() + unique).trim());
+                    params.put("image", imageToString(bitmap));
+                    return params;
+                }
+            };
+            try {
+                Volley.newRequestQueue(getActivity()).add(stringRequest);
+            } catch (Exception e) {
+                dialog.dismiss();
+                Toast.makeText(getActivity(), getResources().getString(R.string.intern_trouble), Toast.LENGTH_SHORT).show();
+            }
         }
-        dialog.dismiss();
     }
 
     private String imageToString(Bitmap bitmap){
@@ -194,13 +240,61 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         return Base64.encodeToString(imgBytes, Base64.DEFAULT);
     }
 
-    private class INSERTtoChat extends AsyncTask<Void, Void, Integer> {
+    private class MyCustomAdapter extends ArrayAdapter<String> {
+
+        MyCustomAdapter(Context context, int textViewResourceId,
+                        String[] objects) {
+            super(context, textViewResourceId, objects);
+
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            return getCustomView(position, convertView, parent);
+        }
+
+        View getCustomView(int position, View convertView,
+                           ViewGroup parent) {
+
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View row = inflater.inflate(R.layout.spinner_element, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.spinner_text);
+            label.setText(typeList[position]);
+
+            switch (position){
+                case 0:
+                    label.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                    break;
+                case 1:
+                    label.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_local_dining_black_24dp), null, null, null);
+                    break;
+                case 2:
+                    label.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_attach_money_black_24dp), null, null, null);
+                    break;
+                case 3:
+                    label.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_filter_vintage_black_24dp), null, null, null);
+                    break;
+            }
+
+
+            return row;
+        }
+    }
+
+    private class UPLOAD_TO_SERVER extends AsyncTask<Void, Void, Integer> {
         protected Integer doInBackground(Void... params) {
             String title = mTitle.getText().toString();
             String photoUrl = mServerUrl+"upload/"+title+unique+".jpg";
             String place = "Sovetskaya st 39-139";
             String end_date = (System.currentTimeMillis()+120000)+"";
-            String type = "food";
             String description = "Уличные музыканты Dай Dарогу играют на советской";
             String user = mSettings.getString(APP_PREFERENCES_ID, "0");
             try {
@@ -219,6 +313,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                 conn.connect();
                 res = conn.getResponseCode();
             } catch (Exception e) {
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             } finally {
                 dialog.dismiss();

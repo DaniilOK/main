@@ -19,7 +19,7 @@
     <string name="log_out">Sign Out</string>
     <string name="clr_logged">Clear logged</string>
     <string name="choose_image">Choose Image</string>
-    <string name="upload_image">Upload Image</string>
+    <string name="add_action_button">Add action</string>
     <string name="title">Title</string>
     <string name="only_registered_events">Only registered users can add events</string>
     <string name="cancel">Cancel</string>
@@ -56,4 +56,18 @@
 
     <string name="forget_email">Enter you accounts e-mail</string>
     <string name="forget_password">Enter new password</string>
+
+    <string-array name="typelist">
+        <item>Type of action</item>
+        <item>Food</item>
+        <item>Sales</item>
+        <item>Street Art</item>
+    </string-array>
+
+    <string name="set_type">Please, input type of your action!</string>
+    <string name="set_title">Please, input title of your action!</string>
+    <string name="set_image">Please, select image for your action!</string>
+
+    <string name="input_login">Please, input login!</string>
+    <string name="input_password">Please, input title!</string>
 </resources>

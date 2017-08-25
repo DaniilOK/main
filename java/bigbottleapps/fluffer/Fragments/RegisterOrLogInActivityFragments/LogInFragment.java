@@ -68,7 +68,13 @@ public class LogInFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 if(((RegisterOrLogInActivity)getActivity()).hasConnection(getActivity()))
-                    new LOGGING().execute();
+                    if(loginOrEmailET.getText().toString().equals("")) {
+                        setSnackBar(getString(R.string.input_login));
+                    }else if (passwordET.getText().toString().equals("")){
+                        setSnackBar(getString(R.string.input_password));
+                    }else{
+                        new LOGGING().execute();
+                    }
                 else
                     Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_error), Toast.LENGTH_SHORT).show();
             }
@@ -166,8 +172,10 @@ public class LogInFragment extends Fragment{
             return res;
         }
 
-        void setSnackBar(String text){
-            Snackbar.make(getView(), text, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        }
+
+    }
+
+    void setSnackBar(String text){
+        Snackbar.make(getView(), text, Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 }

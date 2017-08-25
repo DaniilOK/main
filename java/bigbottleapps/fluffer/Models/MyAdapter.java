@@ -41,7 +41,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         final RecyclerItem itemList = listItems.get(position);
         holder.txtTitle.setText(itemList.getTitle());
 
-
+        holder.txtType.setText(itemList.getType().toUpperCase());
         holder.progressBar.setProgress(itemList.getProgress());
         holder.percent.setText(itemList.getProgress()+"%");
        //Запускает асинхронную загрузку изображения
@@ -82,12 +82,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView txtTitle;
+        TextView txtType;
         TextView percent;
         CircleImageView imgPhoto;
         ProgressBar progressBar;
 
         ViewHolder(View itemView) {
             super(itemView);
+            txtType = (TextView) itemView.findViewById(R.id.type);
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             imgPhoto = (CircleImageView) itemView.findViewById(R.id.list_item_photo);
             progressBar = (ProgressBar)itemView.findViewById(R.id.progressBar);

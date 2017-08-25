@@ -46,6 +46,7 @@
                         android:drawableLeft="@drawable/ic_extension_black_24dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:id="@+id/type"
                         android:gravity="center_vertical"
                         android:textColor="@color/text_color"
                         android:layout_weight="1.1"

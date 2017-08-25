@@ -13,4 +13,5 @@
     <color name="selected">#ffa000</color>
     <color name="non_selected">#ffffff</color>
     <color name="text_color">#fff</color>
+    <color name="text_hint">#6affffff</color>
 </resources>
