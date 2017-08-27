@@ -70,4 +70,6 @@
 
     <string name="input_login">Please, input login!</string>
     <string name="input_password">Please, input title!</string>
+    <string name="add_desc">Add description for you action here...</string>
+    <string name="place_where">Where is you action?</string>
 </resources>

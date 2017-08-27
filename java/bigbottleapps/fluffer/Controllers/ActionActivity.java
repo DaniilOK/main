@@ -31,7 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ActionActivity extends AppCompatActivity {
     int id;
-    TextView likes, dislikes, title;
+    TextView likes, dislikes, title, description;
     ProgressBar progressBar;
     CircleImageView iw;
 
@@ -65,6 +65,7 @@ public class ActionActivity extends AppCompatActivity {
         likes = (TextView)findViewById(R.id.text_likes);
         dislikes = (TextView)findViewById(R.id.text_dislikes);
         title = (TextView)findViewById(R.id.title);
+        description = (TextView)findViewById(R.id.description);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         iw = (CircleImageView)findViewById(R.id.image);
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
@@ -225,6 +226,7 @@ public class ActionActivity extends AppCompatActivity {
                         d = jsonObject.getString("dislikes");
                         setTitle(jsonObject.getString("title"));
                         setImage(iw, jsonObject.getString("photo_url"));
+                        setDescription(jsonObject.getString("description"));
                         int ans = Integer.parseInt(jsonObject.getString("this"));
                         setLikesAndDislikes(ans);
                     }
@@ -285,6 +287,15 @@ public class ActionActivity extends AppCompatActivity {
             @Override
             public void run() {
                 title.setText(title_text);
+            }
+        });
+    }
+
+    private void setDescription(final String desc_text){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                description.setText(desc_text);
             }
         });
     }

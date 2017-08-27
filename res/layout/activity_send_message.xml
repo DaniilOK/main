@@ -4,43 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#555">
-
-    <LinearLayout
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:id="@+id/text"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:padding="4dp"
+        android:hint="@string/input_text"
+        android:layout_margin="15dp"
+        android:textSize="20sp"
+        android:scrollHorizontally="false"
+        android:maxLines="20"
+        android:background="#bbb" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textMultiLine"
-            android:gravity="top"
-            android:id="@+id/text"
-            android:hint="@string/input_text"
-            android:layout_margin="15dp"
-            android:textSize="20sp"
-            android:scrollHorizontally="false"
-            android:maxLines="20"
-            android:background="#bbb" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:id="@+id/send"
         android:layout_weight="5"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="vertical">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/send"
-            android:text="@string/send"
-            android:background="#555"
-            android:textColor="#ff6c22"
-            android:layout_centerHorizontal="true"
-            android:textSize="20sp" />
-    </RelativeLayout>
+        android:layout_gravity="center_horizontal"
+        android:text="@string/send"
+        android:layout_marginBottom="40dp"
+        android:background="#555"
+        android:textColor="#ff6c22"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp" />
 </LinearLayout>

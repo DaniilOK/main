@@ -69,4 +69,7 @@
     <string name="set_image">Пожалуйста, веберите изображение для Вашего события!</string>
     <string name="input_login">Пожалуйста, введите логин!</string>
     <string name="input_password">Пожалуйста, введите пароль!</string>
+
+    <string name="add_desc">Добавьте описание для происходящего...</string>
+    <string name="place_where">Расскажите, где происходит событие</string>
 </resources>

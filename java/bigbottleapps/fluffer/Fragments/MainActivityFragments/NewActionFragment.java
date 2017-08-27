@@ -54,7 +54,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NewActionFragment extends Fragment implements View.OnClickListener {
     private Button mUploadBn;
-    private EditText mTitle;
+    private EditText mTitle, mPlace, mDescription;
     private CircleImageView mImageView;
     private final int IMG_REQUEST = 1;
     private Bitmap bitmap = null;
@@ -117,6 +117,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         mImageView.setOnClickListener(this);
         mUploadBn.setOnClickListener(this);
         mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        mDescription = (EditText)view.findViewById(R.id.descriptionET);
         final Spinner spinner = (Spinner)view.findViewById(R.id.spinner);
 
         MyCustomAdapter adapter = new MyCustomAdapter(getActivity(),
@@ -132,13 +133,13 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                         type = null;
                         break;
                     case 1:
-                        type = "food";
+                        type = "1";
                         break;
                     case 2:
-                        type = "sales";
+                        type = "2";
                         break;
                     case 3:
-                        type = "art";
+                        type = "3";
                         break;
                 }
             }
@@ -186,15 +187,15 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
 
     private void uploadImage(){
         String mUploadUrl = mServerUrl+"ImageUpload.php";
-        if(type == null){
-            dialog.dismiss();
-            Snackbar.make(getView(), getString(R.string.set_type), Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        }if(mTitle.getText().toString().equals("")) {
-            Snackbar.make(getView(), getString(R.string.set_title), Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            dialog.dismiss();
-        }if(bitmap == null) {
+        if(bitmap == null) {
             Snackbar.make(getView(), getString(R.string.set_image), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             dialog.dismiss();
+        }else if(mTitle.getText().toString().equals("")) {
+            Snackbar.make(getView(), getString(R.string.set_title), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            dialog.dismiss();
+        }else if(type == null){
+            dialog.dismiss();
+            Snackbar.make(getView(), getString(R.string.set_type), Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }else {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, mUploadUrl,
                     new Response.Listener<String>() {
@@ -283,8 +284,6 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                     label.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_filter_vintage_black_24dp), null, null, null);
                     break;
             }
-
-
             return row;
         }
     }
@@ -295,7 +294,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
             String photoUrl = mServerUrl+"upload/"+title+unique+".jpg";
             String place = "Sovetskaya st 39-139";
             String end_date = (System.currentTimeMillis()+120000)+"";
-            String description = "Уличные музыканты Dай Dарогу играют на советской";
+            String description = mDescription.getText().toString();
             String user = mSettings.getString(APP_PREFERENCES_ID, "0");
             try {
                 String post_url = mServerUrl + "service.php?action=insert&"
@@ -313,7 +312,12 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                 conn.connect();
                 res = conn.getResponseCode();
             } catch (Exception e) {
-                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
                 e.printStackTrace();
             } finally {
                 dialog.dismiss();
