@@ -132,9 +132,18 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                         String photo_url = jsonObject.getString("photo_url");
                         String likes = jsonObject.getString("likes");
                         String dislikes = jsonObject.getString("dislikes");
+                        long d_date = Long.parseLong(jsonObject.getString("ago"))/1000;
+                        int h = (int)(d_date/3600);
+                        int m = (int)(d_date%3600)/60;
+                        String date = "";
+                        if(h==0){
+                            date = m+" "+getString(R.string.ago_m);
+                        }else {
+                            date = h+" "+getString(R.string.ago_h);
+                        }
                         int l = Integer.parseInt(likes);
                         int d = Integer.parseInt(dislikes);
-                        listItems.add(0, new RecyclerItem(title, l, d, photo_url, action_id, typelist[type_id]));
+                        listItems.add(0, new RecyclerItem(title, l, d, photo_url, action_id, typelist[type_id], date));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

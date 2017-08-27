@@ -6,14 +6,16 @@ public class RecyclerItem {
     private String image;
     private Integer progress;
     private String id;
+    private String date;
     private String type;
 
-    public RecyclerItem(String title, int likes, int dislikes, String image, String id, String type) {
+    public RecyclerItem(String title, int likes, int dislikes, String image, String id, String type, String date) {
         this.title = title;
         this.image = image;
         this.progress = calcProgress(likes, dislikes);
         this.id = id;
         this.type = type;
+        this.date = date;
     }
 
     String getId(){
@@ -38,11 +40,19 @@ public class RecyclerItem {
         return 0;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     String getImage(){
         return this.image;
     }
 
-    public String getType() {
+    String getType() {
         return type;
     }
 

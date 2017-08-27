@@ -72,4 +72,6 @@
     <string name="input_password">Please, input title!</string>
     <string name="add_desc">Add description for you action here...</string>
     <string name="place_where">Where is you action?</string>
+    <string name="ago_h">h. ago</string>
+    <string name="ago_m">m. ago</string>
 </resources>

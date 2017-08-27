@@ -40,7 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
         final RecyclerItem itemList = listItems.get(position);
         holder.txtTitle.setText(itemList.getTitle());
-
+        holder.date.setText(itemList.getDate());
         holder.txtType.setText(itemList.getType().toUpperCase());
         holder.progressBar.setProgress(itemList.getProgress());
         holder.percent.setText(itemList.getProgress()+"%");
@@ -84,6 +84,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         TextView txtTitle;
         TextView txtType;
         TextView percent;
+        TextView date;
         CircleImageView imgPhoto;
         ProgressBar progressBar;
 
@@ -94,6 +95,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             imgPhoto = (CircleImageView) itemView.findViewById(R.id.list_item_photo);
             progressBar = (ProgressBar)itemView.findViewById(R.id.progressBar);
             percent = (TextView)itemView.findViewById(R.id.percent);
+            date = (TextView)itemView.findViewById(R.id.date);
         }
     }
 
