@@ -85,16 +85,13 @@
                 android:id="@+id/place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:enabled="false"
-                android:text="Where is you action?"
+                android:text="@string/place_where"
                 android:paddingRight="4dp"
                 android:paddingLeft="4dp"
                 android:textColor="@color/text_color"
                 android:gravity="center_horizontal"
                 android:backgroundTint="@color/text_color"
                 android:drawableRight="@drawable/ic_location_on_white_24dp"
-                android:inputType="textPostalAddress"
                 android:layout_below="@+id/descriptionET"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="22dp" />

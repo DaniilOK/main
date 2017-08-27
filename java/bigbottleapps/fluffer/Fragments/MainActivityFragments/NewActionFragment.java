@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import bigbottleapps.fluffer.Controllers.MainActivity;
+import bigbottleapps.fluffer.Controllers.MapForNewActionActivity;
 import bigbottleapps.fluffer.R;
 import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -119,7 +121,14 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         mDescription = (EditText)view.findViewById(R.id.descriptionET);
         final Spinner spinner = (Spinner)view.findViewById(R.id.spinner);
-
+        EditText place = (EditText) view.findViewById(R.id.place);
+        place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("asdf", "ASfd");
+                startActivity(new Intent(getActivity(), MapForNewActionActivity.class));
+            }
+        });
         MyCustomAdapter adapter = new MyCustomAdapter(getActivity(),
                 R.layout.spinner_element, typeList);
         spinner.setAdapter(adapter);

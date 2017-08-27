@@ -72,6 +72,6 @@
 
     <string name="add_desc">Добавьте описание для происходящего...</string>
     <string name="place_where">Расскажите, где происходит событие</string>
-    <string name="ago_h">ч. надад</string>
+    <string name="ago_h">ч. назад</string>
     <string name="ago_m">мин. назад</string>
 </resources>

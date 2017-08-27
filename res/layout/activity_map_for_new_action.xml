@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="bigbottleapps.fluffer.Controllers.MapForNewActionActivity">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    <fragment
+        android:id="@+id/map_2"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="468dp"
+        />
+
+    <Button
+        android:id="@+id/set_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set Place"
+        android:layout_gravity="center" />
+
+
+</LinearLayout>
+
+

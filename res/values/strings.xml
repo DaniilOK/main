@@ -71,7 +71,11 @@
     <string name="input_login">Please, input login!</string>
     <string name="input_password">Please, input title!</string>
     <string name="add_desc">Add description for you action here...</string>
-    <string name="place_where">Where is you action?</string>
+    <string name="place_where">Where is your action?</string>
     <string name="ago_h">h. ago</string>
     <string name="ago_m">m. ago</string>
+
+    <string name="key_api">AIzaSyCtuADK2UwtLUfXWe1bgby1_uq-7vSQ-Jc</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_map_for_new_action">Map</string>
 </resources>
