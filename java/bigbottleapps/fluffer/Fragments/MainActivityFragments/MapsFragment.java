@@ -6,11 +6,14 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -57,6 +60,7 @@ public class MapsFragment extends Fragment{
             @Override
             public void onMapReady(final GoogleMap googleMap) {
                 map = googleMap;
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.087175135821, 23.702393397688866), 13));
                 new SELECT().execute();
             }
         };
@@ -120,14 +124,13 @@ public class MapsFragment extends Fragment{
                         int l = Integer.parseInt(likes);
                         int d = Integer.parseInt(dislikes);
                         String geo[] = place.split(" ");
-                        latlng = new LatLng(Double.parseDouble(geo[0]), Double.parseDouble(geo[1]));
+                        latlng = new LatLng(Double.parseDouble(geo[1]), Double.parseDouble(geo[0]));
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 map.addMarker(new MarkerOptions().position(latlng).draggable(false).title(title));
                             }
                         });
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -136,12 +139,6 @@ public class MapsFragment extends Fragment{
             adapter = new MyAdapter(listItems, getActivity());
 
             return res;
-        }
-
-        protected void onPostExecute(Integer result) {
-            if (result == 200) {
-
-            }
         }
     }
 
