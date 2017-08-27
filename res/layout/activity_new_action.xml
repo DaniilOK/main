@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="250dp">
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
@@ -81,20 +81,35 @@
                 android:inputType="textMultiLine"
                 />
 
-            <EditText
-                android:id="@+id/place"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/place_where"
-                android:paddingRight="4dp"
-                android:paddingLeft="4dp"
-                android:textColor="@color/text_color"
-                android:gravity="center_horizontal"
-                android:backgroundTint="@color/text_color"
-                android:drawableRight="@drawable/ic_location_on_white_24dp"
-                android:layout_below="@+id/descriptionET"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="22dp" />
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+               android:layout_below="@id/descriptionET"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/place"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/text_color"
+                    android:enabled="false"
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="4dp"
+                    android:textSize="14dp"
+                    android:paddingRight="4dp"
+                    android:text="@string/place_where"
+                    android:textColor="@color/text_color" />
+                <Button
+                    android:id="@+id/place2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="8"
+                    android:background="@drawable/ic_location_on_white_24dp"/>
+            </LinearLayout>
+
 
             <Button
                 android:layout_width="match_parent"
@@ -103,10 +118,10 @@
                 android:id="@+id/uploadBn"
                 android:drawableLeft="@drawable/ic_file_upload_black_24dp"
                 android:visibility="visible"
-                android:layout_below="@id/place"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                 />
+                android:layout_below="@id/descriptionET"
+                android:layout_marginTop="70dp"/>
+
+
         </RelativeLayout>
     </ScrollView>
 

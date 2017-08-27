@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import bigbottleapps.fluffer.Fragments.MainActivityFragments.*;
@@ -27,21 +28,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onResume(){
-        super.onResume();
-        if(mSettings!=null){
-            if(mSettings.contains(APP_PREFERENCES_MAP)&&mSettings.getString(APP_PREFERENCES_MAP, "false").equals("true")){
-
-            }
-        }
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
+        Log.d("asdfas", "ASdfasd2");
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if((mSettings!=null)&&(mSettings.contains(APP_PREFERENCES_FROM)))
             if (mSettings.getString(APP_PREFERENCES_FROM, "list").equals("list")) {
+
                 navigation.setSelectedItemId(R.id.navigation_home);
             }
     }
@@ -62,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            //region mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
@@ -75,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     setMapFragment();
                     return true;
                 case R.id.navigation_add:
-                    mSettings.edit().putString(APP_PREFERENCES_FROM, "new").apply();
-                    setNewActionFragment();
+                    startActivity(new Intent(getApplicationContext(), AddingNewActionActivity.class));
                     return true;
                 case R.id.navigation_settings:
                     setFragment(new SettingsFragment());
@@ -91,13 +82,6 @@ public class MainActivity extends AppCompatActivity {
         setFragment(new MapsFragment());
     }
     //endregion
-
-    public void setNewActionFragment(){
-        if(hasConnection(this))
-            setFragment(new NewActionFragment());
-        else
-            setFragment(new RefreshFragment2());
-    }
 
     public void setActionListFragment(){
         if(hasConnection(this))

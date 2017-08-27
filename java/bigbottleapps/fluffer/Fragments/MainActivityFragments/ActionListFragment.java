@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.Models.MyAdapter;
 import bigbottleapps.fluffer.R;
 import bigbottleapps.fluffer.Models.RecyclerItem;
@@ -41,7 +42,7 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
     private String answer, user_id;
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_ID = "id";
-    public Drawable upBlack, upBlue, downBlack, downBlue;
+
 
     @Override
     public void onStart() {
@@ -72,10 +73,7 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
         listItems = new ArrayList<>();
         SharedPreferences mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         user_id = mSettings.getString(APP_PREFERENCES_ID, "0");
-        upBlack = getImageById(R.drawable.ic_thumb_up_black_24dp);
-        upBlue = getImageById(R.drawable.ic_thumb_up_blue_24dp);
-        downBlack = getImageById(R.drawable.ic_thumb_down_black_24dp);
-        downBlue = getImageById(R.drawable.ic_thumb_down_blue_24dp);
+
     }
 
     Drawable getImageById(int id){
@@ -128,7 +126,7 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                         String action_id = jsonObject.getString("_id");
                         String title = jsonObject.getString("title");
                         int type_id = Integer.parseInt(jsonObject.getString("type"));
-                        String typelist[] = getActivity().getResources().getStringArray(R.array.typelist);
+                        String typelist[] = ((MainActivity)getActivity()).getResources().getStringArray(R.array.typelist);
                         String photo_url = jsonObject.getString("photo_url");
                         String likes = jsonObject.getString("likes");
                         String dislikes = jsonObject.getString("dislikes");

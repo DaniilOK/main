@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import bigbottleapps.fluffer.Fragments.RegisterOrLogInActivityFragments.*;
 import bigbottleapps.fluffer.R;
@@ -22,9 +23,12 @@ public class RegisterOrLogInActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(APP_PREFERENCES_FROM, "list");
-        editor.apply();
+        if(from.equals("new_action")){
+            Log.d("chch", "1");
+            mSettings.edit().putString(APP_PREFERENCES_FROM, "new").apply();
+        }else {
+            mSettings.edit().putString(APP_PREFERENCES_FROM, "list").apply();
+        }
         finish();
     }
 

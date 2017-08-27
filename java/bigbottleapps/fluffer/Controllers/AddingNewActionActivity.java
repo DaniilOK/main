@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer.Fragments.MainActivityFragments;
+package bigbottleapps.fluffer.Controllers;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,14 +8,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,15 +46,13 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import bigbottleapps.fluffer.Controllers.MainActivity;
-import bigbottleapps.fluffer.Controllers.MapForNewActionActivity;
 import bigbottleapps.fluffer.R;
-import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class NewActionFragment extends Fragment implements View.OnClickListener {
-    private Button mUploadBn;
-    private EditText mTitle, mPlace, mDescription;
+public class AddingNewActionActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private Button mPlaceB, mUploadBn;
+    private EditText mTitle, mPlaceET, mDescription;
     private CircleImageView mImageView;
     private final int IMG_REQUEST = 1;
     private Bitmap bitmap = null;
@@ -69,15 +65,45 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     public static final String APP_PREFERENCES_LOE = "loe";
     public final static String APP_PREFERENCES_PASSWORD = "password";
     public static final String APP_PREFERENCES_ID = "id";
+    public static final String APP_PREFERENCES_FROM = "from";
+    public static final String APP_PREFERENCES_MAP = "map";
+    public static final String APP_PREFERENCES_LNG = "lng";
+    public static final String APP_PREFERENCES_LTD = "ltd";
+    private String lng, ltd;
 
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_new_action, container, false);
-        InitializeUI(view);
+    protected void onResume(){
+        super.onResume();
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        if(mSettings != null){
+            if(mSettings.contains(APP_PREFERENCES_FROM)&&mSettings.getString(APP_PREFERENCES_FROM, "").equals("new"))
+                setFrom();
+            if(mSettings.contains(APP_PREFERENCES_MAP)&&mSettings.getString(APP_PREFERENCES_MAP, "").equals("true")){
+                lng = mSettings.getString(APP_PREFERENCES_LNG, "");
+                ltd = mSettings.getString(APP_PREFERENCES_LTD, "");
+                mPlaceET.setText(lng+"  "+ltd);
+                mSettings.edit().putString(APP_PREFERENCES_MAP, "false").apply();
+            }
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_action);
+        InitializeUI();
         adding();
-        return view;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setFrom();
+    }
+
+    public void setFrom(){
+        mSettings.edit().putString(APP_PREFERENCES_FROM, "list").apply();
+        finish();
     }
 
     @Override
@@ -92,13 +118,14 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         }
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==IMG_REQUEST && resultCode == getActivity().RESULT_OK && data != null){
+        if(requestCode==IMG_REQUEST && resultCode == RESULT_OK && data != null){
             Uri path = data.getData();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), path);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), path);
                 mImageView.setImageBitmap(bitmap);
                 mImageView.setSystemUiVisibility(View.VISIBLE);
                 mImageView.setVisibility(View.VISIBLE);
@@ -110,26 +137,26 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    private void InitializeUI(View view){
+    private void InitializeUI(){
         unique = String.valueOf(System.currentTimeMillis());
-        typeList = getActivity().getResources().getStringArray(R.array.typelist);
-        mUploadBn = (Button) view.findViewById(R.id.uploadBn);
-        mImageView = (CircleImageView) view.findViewById(R.id.imageView);
-        mTitle = (EditText)view.findViewById(R.id.action_title);
+        typeList = getResources().getStringArray(R.array.typelist);
+        mUploadBn = (Button) findViewById(R.id.uploadBn);
+        mImageView = (CircleImageView) findViewById(R.id.imageView);
+        mTitle = (EditText)findViewById(R.id.action_title);
         mImageView.setOnClickListener(this);
         mUploadBn.setOnClickListener(this);
-        mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        mDescription = (EditText)view.findViewById(R.id.descriptionET);
-        final Spinner spinner = (Spinner)view.findViewById(R.id.spinner);
-        EditText place = (EditText) view.findViewById(R.id.place);
-        place.setOnClickListener(new View.OnClickListener() {
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        mDescription = (EditText)findViewById(R.id.descriptionET);
+        final Spinner spinner = (Spinner)findViewById(R.id.spinner);
+        mPlaceET = (EditText) findViewById(R.id.place);
+        mPlaceB = (Button) findViewById(R.id.place2);
+        mPlaceB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("asdf", "ASfd");
-                startActivity(new Intent(getActivity(), MapForNewActionActivity.class));
+                startActivity(new Intent(getApplicationContext(), MapForNewActionActivity.class));
             }
         });
-        MyCustomAdapter adapter = new MyCustomAdapter(getActivity(),
+        MyCustomAdapter adapter = new MyCustomAdapter(getApplicationContext(),
                 R.layout.spinner_element, typeList);
         spinner.setAdapter(adapter);
         spinner.setSelection(0, true);
@@ -162,23 +189,22 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
 
     public void adding(){
         if (!mSettings.contains(APP_PREFERENCES_LOE)) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(getActivity().getString(R.string.registration));
-            builder.setMessage(getActivity().getString(R.string.only_registered_events));
+            final AlertDialog.Builder builder = new AlertDialog.Builder(AddingNewActionActivity.this);
+            builder.setTitle(getString(R.string.registration));
+            builder.setMessage(getString(R.string.only_registered_events));
             builder.setCancelable(false);
-            builder.setPositiveButton(getActivity().getString(R.string.registration), new DialogInterface.OnClickListener() { // Кнопка ОК
+            builder.setPositiveButton(getString(R.string.registration), new DialogInterface.OnClickListener() { // Кнопка ОК
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(getActivity(), RegisterOrLogInActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), RegisterOrLogInActivity.class);
                     intent.putExtra("from", "new_action");
                     startActivity(intent);
                 }
             });
-            builder.setNegativeButton(getActivity().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    ((MainActivity)getActivity()).navigation.setSelectedItemId(R.id.navigation_home);
-                    ((MainActivity)getActivity()).setActionListFragment();
+                    setFrom();
                     dialog.dismiss();
                 }
             });
@@ -197,14 +223,14 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     private void uploadImage(){
         String mUploadUrl = mServerUrl+"ImageUpload.php";
         if(bitmap == null) {
-            Snackbar.make(getView(), getString(R.string.set_image), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Snackbar.make(getCurrentFocus(), getString(R.string.set_image), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             dialog.dismiss();
         }else if(mTitle.getText().toString().equals("")) {
-            Snackbar.make(getView(), getString(R.string.set_title), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Snackbar.make(getCurrentFocus(), getString(R.string.set_title), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             dialog.dismiss();
         }else if(type == null){
             dialog.dismiss();
-            Snackbar.make(getView(), getString(R.string.set_type), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Snackbar.make(getCurrentFocus(), getString(R.string.set_type), Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }else {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, mUploadUrl,
                     new Response.Listener<String>() {
@@ -213,17 +239,17 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 String Response = jsonObject.getString("response");
-                                Toast.makeText(getActivity(), Response, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), Response, Toast.LENGTH_SHORT).show();
                                 new UPLOAD_TO_SERVER().execute();
                             } catch (JSONException e) {
-                                Toast.makeText(getActivity(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getActivity(), "Some errors while loading... Please, try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Some errors while loading... Please, try again", Toast.LENGTH_SHORT).show();
                 }
             }) {
                 @Override
@@ -235,10 +261,10 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                 }
             };
             try {
-                Volley.newRequestQueue(getActivity()).add(stringRequest);
+                Volley.newRequestQueue(getApplicationContext()).add(stringRequest);
             } catch (Exception e) {
                 dialog.dismiss();
-                Toast.makeText(getActivity(), getResources().getString(R.string.intern_trouble), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.intern_trouble), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -274,7 +300,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         View getCustomView(int position, View convertView,
                            ViewGroup parent) {
 
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            LayoutInflater inflater = getLayoutInflater();
             View row = inflater.inflate(R.layout.spinner_element, parent, false);
             TextView label = (TextView) row.findViewById(R.id.spinner_text);
             label.setText(typeList[position]);
@@ -301,7 +327,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         protected Integer doInBackground(Void... params) {
             String title = mTitle.getText().toString();
             String photoUrl = mServerUrl+"upload/"+title+unique+".jpg";
-            String place = "Sovetskaya st 39-139";
+            String place = lng+" "+ltd;
             String end_date = (System.currentTimeMillis()+120000)+"";
             String description = mDescription.getText().toString();
             String user = mSettings.getString(APP_PREFERENCES_ID, "0");
@@ -321,12 +347,14 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                 conn.connect();
                 res = conn.getResponseCode();
             } catch (Exception e) {
-                getActivity().runOnUiThread(new Runnable() {
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                     }
                 });
+                dialog.dismiss();
+                setFrom();
                 e.printStackTrace();
             } finally {
                 dialog.dismiss();
@@ -337,8 +365,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
 
         protected void onPostExecute(Integer result){
             dialog.dismiss();
-            ((MainActivity)getActivity()).setActionListFragment();
-            ((MainActivity)getActivity()).navigation.setSelectedItemId(R.id.navigation_home);
+
         }
     }
 
@@ -346,7 +373,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(getActivity()); // this = YourActivity
+            dialog = new ProgressDialog(AddingNewActionActivity.this); // this = YourActivity
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             dialog.setMessage(getResources().getString(R.string.wait_loading));
             dialog.setIndeterminate(false);
@@ -384,7 +411,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                 code = Integer.parseInt(jsonObject.getString("answer"));
                 switch (code) {
                     case 0:
-                        getActivity().runOnUiThread(new Runnable() {
+                        runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 uploadImage();
@@ -393,7 +420,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
                         break;
                     case 3:
                         dialog.dismiss();
-                        getActivity().runOnUiThread(new Runnable() {
+                        runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 showDialog();
@@ -413,7 +440,7 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
     }
 
     public void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
         builder.setTitle(":(");
         builder.setMessage(getResources().getString(R.string.account_banned));
         builder.setCancelable(true);
@@ -427,3 +454,4 @@ public class NewActionFragment extends Fragment implements View.OnClickListener 
         dialog.show();
     }
 }
+

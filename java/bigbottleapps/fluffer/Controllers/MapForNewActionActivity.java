@@ -4,24 +4,21 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import bigbottleapps.fluffer.Fragments.MainActivityFragments.NewActionFragment;
 import bigbottleapps.fluffer.R;
 
 public class MapForNewActionActivity extends FragmentActivity {
 
     OnMapReadyCallback onMapReadyCallback;
     public static final String APP_PREFERENCES = "users";
-    public static final String APP_PREFERENCES_LOE = "loe";
-    public final static String APP_PREFERENCES_PASSWORD = "password";
-    public static final String APP_PREFERENCES_ID = "id";
     public static final String APP_PREFERENCES_MAP = "map";
     public static final String APP_PREFERENCES_LNG = "lng";
     public static final String APP_PREFERENCES_LTD = "ltd";
@@ -49,6 +46,16 @@ public class MapForNewActionActivity extends FragmentActivity {
                 });
             }
         };
+        Button add = (Button)findViewById(R.id.set_place);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSettings.edit().putString(APP_PREFERENCES_MAP, "true").apply();
+                mSettings.edit().putString(APP_PREFERENCES_LNG, lng).apply();
+                mSettings.edit().putString(APP_PREFERENCES_LTD, ltd).apply();
+                finish();
+            }
+        });
         mapFragment.getMapAsync(onMapReadyCallback);
     }
 
@@ -59,5 +66,7 @@ public class MapForNewActionActivity extends FragmentActivity {
         lng = latLng.longitude+"";
 
     }
+
+
 
 }
