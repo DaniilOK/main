@@ -8,11 +8,13 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import bigbottleapps.fluffer.CityFragment;
 import bigbottleapps.fluffer.Fragments.MainActivityFragments.*;
 import bigbottleapps.fluffer.Fragments.MainActivityFragments.MapsFragment;
 import bigbottleapps.fluffer.R;
@@ -30,11 +32,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("asdfas", "ASdfasd2");
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if((mSettings!=null)&&(mSettings.contains(APP_PREFERENCES_FROM)))
             if (mSettings.getString(APP_PREFERENCES_FROM, "list").equals("list")) {
-
                 navigation.setSelectedItemId(R.id.navigation_home);
             }
     }
@@ -43,8 +43,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        if (!mSettings.contains("city")){
+            mSettings.edit().putInt("city", 0);
+            setDialog();
+        }
         setActionListFragment();
     }
 
@@ -117,7 +122,16 @@ public class MainActivity extends AppCompatActivity {
         return wifiInfo != null && wifiInfo.isConnected();
     }
 
+    public void setCity(int city){
+        mSettings.edit().putInt("city", city).apply();
+    }
+
     public void setForgetFragment(){
         setFragment(new ForgetFragment());
+    }
+
+    public void setDialog(){
+        DialogFragment dialog = new CityFragment();
+        dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
     }
 }

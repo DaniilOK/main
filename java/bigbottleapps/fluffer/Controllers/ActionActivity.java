@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,7 +42,7 @@ public class ActionActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES_ID = "id";
     public static final String APP_PREFERENCES_FROM = "from";
     private static final String mServerUrl = "http://posovetu.vh100.hosterby.com/";
-    private String answer, user_id, l , d;
+    private String answer, user_id, l , d, place;
     private boolean lOrD;
     SharedPreferences mSettings;
 
@@ -60,7 +61,15 @@ public class ActionActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action);
-
+        Button button = (Button)findViewById(R.id.on_map);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MapForActionActivity.class);
+                intent.putExtra("place", place);
+                startActivity(intent);
+            }
+        });
         id = Integer.parseInt(getIntent().getStringExtra("id"));
         likes = (TextView)findViewById(R.id.text_likes);
         dislikes = (TextView)findViewById(R.id.text_dislikes);
@@ -224,6 +233,7 @@ public class ActionActivity extends AppCompatActivity {
                         jsonObject = jsonArray.getJSONObject(i);
                         l = jsonObject.getString("likes");
                         d = jsonObject.getString("dislikes");
+                        place = jsonObject.getString("place");
                         setTitle(jsonObject.getString("title"));
                         setImage(iw, jsonObject.getString("photo_url"));
                         setDescription(jsonObject.getString("description"));

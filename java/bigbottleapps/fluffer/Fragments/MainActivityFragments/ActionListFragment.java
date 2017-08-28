@@ -42,7 +42,7 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
     private String answer, user_id;
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_ID = "id";
-
+    SharedPreferences mSettings;
 
     @Override
     public void onStart() {
@@ -71,7 +71,7 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         listItems = new ArrayList<>();
-        SharedPreferences mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         user_id = mSettings.getString(APP_PREFERENCES_ID, "0");
 
     }
@@ -88,7 +88,7 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
     private class SELECT extends AsyncTask<Void, Void, Integer> {
         protected Integer doInBackground(Void... params) {
             try {
-                URL url = new URL(mServerUrl + "service.php?action=select&user_id="+user_id);
+                URL url = new URL(mServerUrl + "service.php?action=select&user_id="+user_id+"&city="+mSettings.getInt("city", 0));
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);

@@ -74,4 +74,16 @@
     <string name="place_where">Расскажите, где происходит событие</string>
     <string name="ago_h">ч. назад</string>
     <string name="ago_m">мин. назад</string>
+    <string name="change_city">Изменить город</string>
+
+    <string-array name="cities">
+        <item>Брест</item>
+        <item>Минск</item>
+        <item>Москва</item>
+        <item>Санкт-Петербург</item>
+        <item>Варшава</item>
+    </string-array>
+
+    <string name="your_city">Ваш город ...</string>
+
 </resources>

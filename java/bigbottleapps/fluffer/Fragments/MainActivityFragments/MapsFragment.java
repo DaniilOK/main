@@ -1,5 +1,7 @@
 package bigbottleapps.fluffer.Fragments.MainActivityFragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -49,18 +51,39 @@ public class MapsFragment extends Fragment{
     public static final String APP_PREFERENCES_ID = "id";
     GoogleMap map;
     String title;
-    LatLng latlng;
+    LatLng latlng, latlng2;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_maps, container, false);
+        SharedPreferences mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        switch (mSettings.getInt("city", -1)){
+            case -1:
+
+                break;
+            case 0:
+                latlng2 = new LatLng(52.087175135821, 23.702393397688866);
+                break;
+            case 1:
+                latlng2 = new LatLng(53.90420423549256, 27.562403306365013);
+                break;
+            case 2:
+                latlng2 = new LatLng(55.75118973951429, 37.616174966096885);
+                break;
+            case 3:
+                latlng2 = new LatLng(59.93298866532049, 30.332120396196842);
+                break;
+            case 4:
+                latlng2 = new LatLng(52.2277059779058, 21.01638838648796);
+                break;
+        }
         SupportMapFragment mapFragment = (SupportMapFragment)this.getChildFragmentManager().findFragmentById(R.id.map);
         onMapReadyCallback = new OnMapReadyCallback() {
             @Override
             public void onMapReady(final GoogleMap googleMap) {
                 map = googleMap;
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.087175135821, 23.702393397688866), 13));
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng2, 13));
                 new SELECT().execute();
             }
         };
@@ -72,7 +95,7 @@ public class MapsFragment extends Fragment{
     private class SELECT extends AsyncTask<Void, Void, Integer> {
         protected Integer doInBackground(Void... params) {
             try {
-                URL url = new URL(mServerUrl + "service.php?action=select&user_id="+user_id);
+                URL url = new URL(mServerUrl + "service.php?action=select&user_id="+user_id+"&city="+getActivity().getSharedPreferences("users", Context.MODE_PRIVATE).getInt("city", 0));
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
@@ -128,9 +151,11 @@ public class MapsFragment extends Fragment{
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                map.addMarker(new MarkerOptions().position(latlng).draggable(false).title(title));
+                                MarkerOptions marker = new MarkerOptions().position(latlng).draggable(false).title(title);
+                                map.addMarker(marker);
                             }
                         });
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

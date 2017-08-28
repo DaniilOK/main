@@ -357,6 +357,7 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
                 setFrom();
                 e.printStackTrace();
             } finally {
+                setFrom();
                 dialog.dismiss();
                 conn.disconnect();
             }

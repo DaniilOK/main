@@ -54,7 +54,10 @@
         <activity
             android:name=".Controllers.MapForNewActionActivity"
             android:label="@string/title_activity_map_for_new_action" />
-        <activity android:name=".Controllers.AddingNewActionActivity"></activity>
+        <activity android:name=".Controllers.AddingNewActionActivity" />
+        <activity
+            android:name=".Controllers.MapForActionActivity"
+            android:label="@string/title_activity_map_for_action"></activity>
     </application>
 
 </manifest>

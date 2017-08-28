@@ -78,4 +78,17 @@
     <string name="key_api">AIzaSyCtuADK2UwtLUfXWe1bgby1_uq-7vSQ-Jc</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_map_for_new_action">Map</string>
+    <string name="title_activity_map_for_action">Map</string>
+    <string name="change_city">Change city</string>
+
+    <string-array name="cities">
+        <item>Brest</item>
+        <item>Minsk</item>
+        <item>Moscow</item>
+        <item>Saint-Petersburg</item>
+        <item>Warszawa</item>
+    </string-array>
+    <string name="your_city">Your city ...</string>
+
+
 </resources>

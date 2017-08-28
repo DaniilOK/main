@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import bigbottleapps.fluffer.CityFragment;
 import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 import bigbottleapps.fluffer.R;
@@ -20,6 +22,7 @@ public class SettingsFragment extends Fragment {
 
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_LOE = "loe";
+    public static final String APP_PREFERENCES_CITY = "city";
     private SharedPreferences mSettings;
 
     @Nullable
@@ -32,6 +35,8 @@ public class SettingsFragment extends Fragment {
         final Button logoutB = (Button)view.findViewById(R.id.log_out);
         final Button changepassB = (Button)view.findViewById(R.id.change_pass);
         final Button sendmsgtB = (Button)view.findViewById(R.id.send_msg);
+        final Button changeCityB = (Button)view.findViewById(R.id.change_city);
+        String cities[] = getResources().getStringArray(R.array.cities);
 
         if (mSettings.contains(APP_PREFERENCES_LOE))
             loginB.setVisibility(View.GONE);
@@ -76,6 +81,19 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        changeCityB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               setDialog();
+            }
+        });
         return view;
     }
+
+    public void setDialog(){
+        DialogFragment dialog = new CityFragment();
+        dialog.show(getActivity().getSupportFragmentManager(), "NoticeDialogFragment");
+    }
+
+
 }

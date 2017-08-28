@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -38,6 +39,28 @@ public class MapForNewActionActivity extends FragmentActivity {
         onMapReadyCallback = new OnMapReadyCallback() {
             @Override
             public void onMapReady(final GoogleMap googleMap) {
+                LatLng latlng2 = new LatLng(0, 0);
+                switch (mSettings.getInt("city", -1)){
+                    case -1:
+
+                        break;
+                    case 0:
+                        latlng2 = new LatLng(52.087175135821, 23.702393397688866);
+                        break;
+                    case 1:
+                        latlng2 = new LatLng(53.90420423549256, 27.562403306365013);
+                        break;
+                    case 2:
+                        latlng2 = new LatLng(55.75118973951429, 37.616174966096885);
+                        break;
+                    case 3:
+                        latlng2 = new LatLng(59.93298866532049, 30.332120396196842);
+                        break;
+                    case 4:
+                        latlng2 = new LatLng(52.2277059779058, 21.01638838648796);
+                        break;
+                }
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng2, 13));
                 googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                     @Override
                     public void onMapLongClick(LatLng latLng) {

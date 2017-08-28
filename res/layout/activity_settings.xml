@@ -28,6 +28,13 @@
         android:layout_width="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
+        android:text="@string/change_city"
+        android:id="@+id/change_city"
+        android:drawableLeft="@drawable/ic_location_city_black_24dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
         android:text="@string/contuct_us"
         android:id="@+id/send_msg"
         android:drawableLeft="@drawable/ic_email_black_24dp"/>
