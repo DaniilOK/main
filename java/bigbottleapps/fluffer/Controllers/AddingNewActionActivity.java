@@ -339,6 +339,7 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
             String end_date = (System.currentTimeMillis()+120000)+"";
             String description = mDescription.getText().toString();
             String user = mSettings.getString(APP_PREFERENCES_ID, "0");
+            String city = mSettings.getInt("city", 0)+"";
             try {
                 String post_url = mServerUrl + "service.php?action=insert&"
                         + "type=" + URLEncoder.encode(type.trim(), "UTF-8")
@@ -347,7 +348,8 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
                         + "&place=" + URLEncoder.encode(place.trim(), "UTF-8")
                         + "&description=" + URLEncoder.encode(description.trim(), "UTF-8")
                         + "&end_date=" + URLEncoder.encode(end_date.trim(), "UTF-8")
-                        + "&user=" + URLEncoder.encode(user.trim(), "UTF-8");
+                        + "&user=" + URLEncoder.encode(user.trim(), "UTF-8")
+                        + "&city=" + URLEncoder.encode(city.trim(), "UTF-8");
                 conn = (HttpURLConnection) new URL(post_url).openConnection();
                 conn.setConnectTimeout(10000);
                 conn.setRequestMethod("POST");
