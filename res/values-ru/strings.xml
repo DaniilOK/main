@@ -64,9 +64,13 @@
         <item>Уличное искусство</item>
     </string-array>
 
-    <string name="set_type">Пожалуйста, выберите тип для Вашего события!</string>
-    <string name="set_title">Пожалуйста, введите название для Вашего события!</string>
+    <string name="set_type">Пожалуйста, выберите тип Вашего события!</string>
+    <string name="set_title">Пожалуйста, введите название Вашего события!</string>
     <string name="set_image">Пожалуйста, веберите изображение для Вашего события!</string>
+    <string name="set_desc">Пожалуйста, введите описание Вашего события!</string>
+    <string name="set_place">Пожалуйста, укажите место Вашего события!</string>
+
+
     <string name="input_login">Пожалуйста, введите логин!</string>
     <string name="input_password">Пожалуйста, введите пароль!</string>
 

@@ -70,6 +70,7 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
     public static final String APP_PREFERENCES_LNG = "lng";
     public static final String APP_PREFERENCES_LTD = "ltd";
     private String lng, ltd;
+    private boolean placeFlag = false;
 
     @Override
     protected void onResume(){
@@ -79,6 +80,7 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
             if(mSettings.contains(APP_PREFERENCES_FROM)&&mSettings.getString(APP_PREFERENCES_FROM, "").equals("new"))
                 setFrom();
             if(mSettings.contains(APP_PREFERENCES_MAP)&&mSettings.getString(APP_PREFERENCES_MAP, "").equals("true")){
+                placeFlag = true;
                 lng = mSettings.getString(APP_PREFERENCES_LNG, "");
                 ltd = mSettings.getString(APP_PREFERENCES_LTD, "");
                 mPlaceET.setText(lng+"  "+ltd);
@@ -231,7 +233,13 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
         }else if(type == null){
             dialog.dismiss();
             Snackbar.make(getCurrentFocus(), getString(R.string.set_type), Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        }else {
+        }else if(mDescription.getText().toString().equals("")){
+            dialog.dismiss();
+            Snackbar.make(getCurrentFocus(), getString(R.string.set_desc), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }else if(!placeFlag){
+            dialog.dismiss();
+            Snackbar.make(getCurrentFocus(), getString(R.string.set_place), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }else{
             StringRequest stringRequest = new StringRequest(Request.Method.POST, mUploadUrl,
                     new Response.Listener<String>() {
                         @Override
@@ -249,7 +257,7 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), "Some errors while loading... Please, try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 }
             }) {
                 @Override

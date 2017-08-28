@@ -46,14 +46,14 @@
         android:id="@+id/logB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/passwordET2"
-        android:layout_marginTop="20dp"
         android:text="@string/button_login"
         android:paddingRight="16dp"
         android:background="#555"
         android:textColor="#ff6c22"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/regB"
+        android:layout_alignBottom="@+id/regB"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/regB"

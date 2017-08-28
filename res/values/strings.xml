@@ -67,9 +67,13 @@
     <string name="set_type">Please, input type of your action!</string>
     <string name="set_title">Please, input title of your action!</string>
     <string name="set_image">Please, select image for your action!</string>
+    <string name="set_desc">Please, input description for your action!</string>
+    <string name="set_place">Please, choose place for your action!</string>
+
 
     <string name="input_login">Please, input login!</string>
     <string name="input_password">Please, input title!</string>
+
     <string name="add_desc">Add description for you action here...</string>
     <string name="place_where">Where is your action?</string>
     <string name="ago_h">h. ago</string>
@@ -89,6 +93,8 @@
         <item>Warszawa</item>
     </string-array>
     <string name="your_city">Your city ...</string>
+
+
 
 
 </resources>
