@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -350,6 +351,7 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
                         + "&end_date=" + URLEncoder.encode(end_date.trim(), "UTF-8")
                         + "&user=" + URLEncoder.encode(user.trim(), "UTF-8")
                         + "&city=" + URLEncoder.encode(city.trim(), "UTF-8");
+                Log.d("check", post_url);
                 conn = (HttpURLConnection) new URL(post_url).openConnection();
                 conn.setConnectTimeout(10000);
                 conn.setRequestMethod("POST");
