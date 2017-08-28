@@ -453,7 +453,7 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
     }
 
     public void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(":(");
         builder.setMessage(getResources().getString(R.string.account_banned));
         builder.setCancelable(true);
