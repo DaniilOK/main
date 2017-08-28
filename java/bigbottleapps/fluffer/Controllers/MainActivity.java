@@ -24,10 +24,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES_FROM = "from";
     SharedPreferences mSettings;
     public BottomNavigationView navigation;
-    public static final String APP_PREFERENCES_MAP = "map";
-    public static final String APP_PREFERENCES_LNG = "lng";
-    public static final String APP_PREFERENCES_LTD = "ltd";
-
 
     @Override
     protected void onStart() {

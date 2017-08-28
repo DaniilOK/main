@@ -1,5 +1,6 @@
 package bigbottleapps.fluffer.Controllers;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import bigbottleapps.fluffer.R;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,9 +43,13 @@ public class ActionActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_ID = "id";
     public static final String APP_PREFERENCES_FROM = "from";
+    public static final String APP_PREFERENCES_LOE = "loe";
+    public final static String APP_PREFERENCES_PASSWORD = "password";
     private static final String mServerUrl = "http://posovetu.vh100.hosterby.com/";
     private String answer, user_id, l , d, place;
     private boolean lOrD;
+    ProgressDialog dialog;
+    boolean flag;
     SharedPreferences mSettings;
 
     @Override
@@ -82,14 +88,16 @@ public class ActionActivity extends AppCompatActivity {
         likes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                likesOrDislikesClick(true, getString(R.string.only_registered_like_posts));
+                flag = true;
+                new LOGGING().execute();
             }
         });
 
         dislikes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                likesOrDislikesClick(false, getString(R.string.only_registered_dslike_posts));
+                flag = false;
+                new LOGGING().execute();
             }
         });
         new SELECT().execute();
@@ -331,5 +339,84 @@ public class ActionActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             this.iw.setImageBitmap(result);
         }
+    }
+    private class LOGGING extends AsyncTask<Void, Void, Integer> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(ActionActivity.this); // this = YourActivity
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setMessage(getResources().getString(R.string.wait_loading));
+            dialog.setIndeterminate(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        }
+
+        protected Integer doInBackground(Void... params) {
+            String loginOrEmail = mSettings.getString(APP_PREFERENCES_LOE, "");
+            String password = mSettings.getString(APP_PREFERENCES_PASSWORD, "");
+            try {
+                String user_url = mServerUrl + "login_service.php?"
+                        + "loginoremail=" + URLEncoder.encode(loginOrEmail.trim(), "UTF-8")
+                        + "&password=" + URLEncoder.encode(password.trim(), "UTF-8");
+                conn = (HttpURLConnection) new URL(user_url).openConnection();
+                conn.setConnectTimeout(10000);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+                conn.connect();
+                res = conn.getResponseCode();
+                InputStream inputStream = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                StringBuilder stringBuilder = new StringBuilder();
+                String bufferedString;
+                while ((bufferedString = reader.readLine()) != null)
+                    stringBuilder.append(bufferedString);
+                String answer = stringBuilder.toString();
+                answer = answer.substring(0, answer.indexOf("]") + 1);
+                inputStream.close();
+                reader.close();
+                JSONArray jsonArray = new JSONArray(answer);
+                JSONObject jsonObject;
+                int code;
+                jsonObject = jsonArray.getJSONObject(0);
+                code = Integer.parseInt(jsonObject.getString("answer"));
+                dialog.dismiss();
+                switch (code) {
+                    case 0:
+                        likesOrDislikesClick(flag, getString(R.string.only_registered_like_posts));
+                        break;
+                    case 3:
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showDialog();
+                            }
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conn.disconnect();
+            }
+            return res;
+        }
+    }
+
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(":(");
+        builder.setMessage(getResources().getString(R.string.account_banned));
+        builder.setCancelable(true);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() { // Кнопка ОК
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
