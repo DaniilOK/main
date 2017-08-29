@@ -59,7 +59,7 @@ public class ActionActivity extends AppCompatActivity {
 
         if((mSettings!=null)&&(mSettings.contains(APP_PREFERENCES_FROM)))
             if (mSettings.getString(APP_PREFERENCES_FROM, "action").equals("action")) {
-                new SELECT().execute();
+                new GET_BY_ID().execute();
             }
     }
 
@@ -100,7 +100,7 @@ public class ActionActivity extends AppCompatActivity {
                 new LOGGING().execute();
             }
         });
-        new SELECT().execute();
+        new GET_BY_ID().execute();
     }
 
     private void setDialog(String text){
@@ -129,7 +129,7 @@ public class ActionActivity extends AppCompatActivity {
     private void likesOrDislikesClick(boolean flag, final String text){
         lOrD = flag;
         if(!user_id.equals("0"))
-            new SELECT1().execute();
+            new SET_LIKES().execute();
         else
             setDialog(text);
     }
@@ -206,7 +206,7 @@ public class ActionActivity extends AppCompatActivity {
         return 0;
     }
 
-    private class SELECT extends AsyncTask<Void, Void, Integer> {
+    private class GET_BY_ID extends AsyncTask<Void, Void, Integer> {
         protected Integer doInBackground(Void... params) {
             try {
                 URL url = new URL(mServerUrl + "get_by_id.php?id="+id+"&user_id="+user_id);
@@ -256,7 +256,7 @@ public class ActionActivity extends AppCompatActivity {
         }
     }
 
-    private class SELECT1 extends AsyncTask<Void, Void, Integer> {
+    private class SET_LIKES extends AsyncTask<Void, Void, Integer> {
         protected Integer doInBackground(Void... params) {
             try {
                 String likeOrDislike = "0";
