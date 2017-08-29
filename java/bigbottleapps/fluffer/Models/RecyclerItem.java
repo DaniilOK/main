@@ -7,9 +7,9 @@ public class RecyclerItem {
     private Integer progress;
     private String id;
     private String date;
-    private String type;
+    private int type;
 
-    public RecyclerItem(String title, int likes, int dislikes, String image, String id, String type, String date) {
+    public RecyclerItem(String title, int likes, int dislikes, String image, String id, int type, String date) {
         this.title = title;
         this.image = image;
         this.progress = calcProgress(likes, dislikes);
@@ -35,6 +35,8 @@ public class RecyclerItem {
             return 0;
         if((likes!=0)&&(dislikes==0))
             return 100;
+        if((likes==0)&&(dislikes==0))
+            return -1;
         if ((likes!=0)&&(dislikes!=0))
             return likes*100/(likes+dislikes);
         return 0;
@@ -52,11 +54,11 @@ public class RecyclerItem {
         return this.image;
     }
 
-    String getType() {
+    int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 }

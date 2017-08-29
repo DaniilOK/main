@@ -89,19 +89,25 @@ public class ActionActivity extends AppCompatActivity {
         likes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flag = true;
-                new LOGGING().execute();
+                check(true, getString(R.string.only_registered_like_posts));
             }
         });
 
         dislikes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                flag = false;
-                new LOGGING().execute();
+                check(false, getString(R.string.only_registered_dslike_posts));
             }
         });
         new GET_BY_ID().execute();
+    }
+
+    private void check(boolean flag, String text){
+        if(user_id.equals("0")){
+            setDialog(text);
+        }else {
+            new LOGGING().execute();
+        }
     }
 
     private void setDialog(String text){

@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer;
+package bigbottleapps.fluffer.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;

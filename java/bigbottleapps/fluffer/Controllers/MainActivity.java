@@ -11,10 +11,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
-import bigbottleapps.fluffer.CityFragment;
+import bigbottleapps.fluffer.Fragments.CityFragment;
 import bigbottleapps.fluffer.Fragments.MainActivityFragments.*;
 import bigbottleapps.fluffer.Fragments.MainActivityFragments.MapsFragment;
 import bigbottleapps.fluffer.R;
@@ -90,10 +89,6 @@ public class MainActivity extends AppCompatActivity {
         else
             setFragment(new RefreshFragment());
 
-    }
-
-    public void setSendTextFragment(){
-        setFragment(new SendTextFragment());
     }
 
     public void setSettingsFragment(){
