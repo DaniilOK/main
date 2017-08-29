@@ -43,6 +43,7 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
     public static final String APP_PREFERENCES = "users";
     public static final String APP_PREFERENCES_ID = "id";
     SharedPreferences mSettings;
+    String typelist[], m_ago, h_ago;
 
     @Override
     public void onStart() {
@@ -64,6 +65,9 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
     }
 
     public void Initialization(View view) {
+        typelist = getResources().getStringArray(R.array.typelist);
+        m_ago = getString(R.string.ago_m);
+        h_ago = getString(R.string.ago_h);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -126,7 +130,7 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                         String action_id = jsonObject.getString("_id");
                         String title = jsonObject.getString("title");
                         int type_id = Integer.parseInt(jsonObject.getString("type"));
-                        String typelist[] = ((MainActivity)getActivity()).getResources().getStringArray(R.array.typelist);
+
                         String photo_url = jsonObject.getString("photo_url");
                         String likes = jsonObject.getString("likes");
                         String dislikes = jsonObject.getString("dislikes");
@@ -135,13 +139,13 @@ public class ActionListFragment extends Fragment implements SwipeRefreshLayout.O
                         int m = (int)(d_date%3600)/60;
                         String date = "";
                         if(h==0){
-                            date = m+" "+getString(R.string.ago_m);
+                            date = m+" "+m_ago;
                         }else {
-                            date = h+" "+getString(R.string.ago_h);
+                            date = h+" "+h_ago;
                         }
                         int l = Integer.parseInt(likes);
                         int d = Integer.parseInt(dislikes);
-                        listItems.add(0, new RecyclerItem(title, l, d, photo_url, action_id, typelist[type_id], date));
+                        listItems.add(0, new RecyclerItem(title, l, d, photo_url, action_id, type_id, date));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

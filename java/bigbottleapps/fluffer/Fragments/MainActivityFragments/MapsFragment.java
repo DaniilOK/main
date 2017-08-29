@@ -1,7 +1,9 @@
 package bigbottleapps.fluffer.Fragments.MainActivityFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,13 +14,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -29,8 +36,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
+import bigbottleapps.fluffer.Controllers.ActionActivity;
 import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.Models.MyAdapter;
 import bigbottleapps.fluffer.Models.RecyclerItem;
@@ -52,6 +61,12 @@ public class MapsFragment extends Fragment{
     GoogleMap map;
     String title;
     LatLng latlng, latlng2;
+    String id;
+    BitmapDescriptor icon;
+    String place, likes, dislikes;
+    private int m, h, type_id;
+    ArrayList<MarkerOptions> markers = new ArrayList<>();
+    int num = 0;
 
     @Nullable
     @Override
@@ -84,6 +99,38 @@ public class MapsFragment extends Fragment{
             public void onMapReady(final GoogleMap googleMap) {
                 map = googleMap;
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng2, 13));
+
+                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        String array[] = marker.getTitle().split("\\.");
+                        Intent intent = new Intent(getActivity(), ActionActivity.class);
+                        intent.putExtra("id", array[0]);
+                        startActivity(intent);
+                    }
+                });
+                map.setInfoWindowAdapter(new InfoWindowAdapter() {
+                    // Use default InfoWindow frame
+                    @Override
+                    public View getInfoWindow(Marker arg0) {
+                        return null;
+                    }
+
+                    // Defines the contents of the InfoWindow
+                    @Override
+                    public View getInfoContents(Marker arg0) {
+
+                        // Getting view from the layout file info_window_layout
+                        View v = getActivity().getLayoutInflater().inflate(R.layout.info_window_for_marker, null);
+                        TextView view = (TextView)v.findViewById(R.id.title_1);
+                        String a = arg0.getTitle();
+                        String array[] = a.split("\\.");
+                        view.setText(array[1]);
+                        return v;
+
+                    }
+                });
+
                 new SELECT().execute();
             }
         };
@@ -93,6 +140,15 @@ public class MapsFragment extends Fragment{
     }
 
     private class SELECT extends AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            for(int i = 0; i< num; i++){
+                map.addMarker(markers.get(i));
+            }
+        }
+
         protected Integer doInBackground(Void... params) {
             try {
                 URL url = new URL(mServerUrl + "service.php?action=select&user_id="+user_id+"&city="+getActivity().getSharedPreferences("users", Context.MODE_PRIVATE).getInt("city", 0));
@@ -132,12 +188,14 @@ public class MapsFragment extends Fragment{
                         jsonObject = jsonArray.getJSONObject(i);
 
                         title = jsonObject.getString("title");
-                        String place = jsonObject.getString("place");
-                        String likes = jsonObject.getString("likes");
-                        String dislikes = jsonObject.getString("dislikes");
+                        place = jsonObject.getString("place");
+                        likes = jsonObject.getString("likes");
+                        dislikes = jsonObject.getString("dislikes");
+                        type_id = Integer.parseInt(jsonObject.getString("type"));
+                        final int id_ = Integer.parseInt(jsonObject.getString("_id"));
                         long d_date = Long.parseLong(jsonObject.getString("ago"))/1000;
-                        int h = (int)(d_date/3600);
-                        int m = (int)(d_date%3600)/60;
+                        h = (int)(d_date/3600);
+                        m = (int)(d_date%3600)/60;
                         String date = "";
                         if(h==0){
                             date = m+" "+getString(R.string.ago_m);
@@ -148,14 +206,20 @@ public class MapsFragment extends Fragment{
                         int d = Integer.parseInt(dislikes);
                         String geo[] = place.split(" ");
                         latlng = new LatLng(Double.parseDouble(geo[1]), Double.parseDouble(geo[0]));
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                MarkerOptions marker = new MarkerOptions().position(latlng).draggable(false).title(title);
-                                map.addMarker(marker);
-                            }
-                        });
-
+                        icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
+                        switch (type_id){
+                            case 1:
+                                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
+                                break;
+                            case 2:
+                                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                                break;
+                            case 3:
+                                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+                                break;
+                        }
+                        markers.add(0, new MarkerOptions().position(latlng).draggable(false).title(id_+"."+title+"."+likes+"."+dislikes).icon(icon));
+                        num++;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

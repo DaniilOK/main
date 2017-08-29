@@ -36,6 +36,7 @@
         </activity>
         <activity android:name=".Controllers.RegisterOrLogInActivity" />
         <activity android:name=".Controllers.ActionActivity" />
+        <activity android:name=".Controllers.SendTextActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -54,7 +55,8 @@
         <activity
             android:name=".Controllers.MapForNewActionActivity"
             android:label="@string/title_activity_map_for_new_action" />
-        <activity android:name=".Controllers.AddingNewActionActivity" />
+        <activity android:name=".Controllers.AddingNewActionActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".Controllers.MapForActionActivity"
             android:label="@string/title_activity_map_for_action" />

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,9 +42,34 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         final RecyclerItem itemList = listItems.get(position);
         holder.txtTitle.setText(itemList.getTitle());
         holder.date.setText(itemList.getDate());
-        holder.txtType.setText(itemList.getType().toUpperCase());
-        holder.progressBar.setProgress(itemList.getProgress());
-        holder.percent.setText(itemList.getProgress()+"%");
+        String typelist[] = mContext.getResources().getStringArray(R.array.typelist);
+        int type = itemList.getType();
+        holder.txtType.setText(typelist[type].toUpperCase());
+        switch (type){
+            case 1:
+                holder.txtType.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_local_dining_black_24dp), null ,null, null);
+                break;
+            case 2:
+                holder.txtType.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_attach_money_black_24dp), null ,null, null);
+                break;
+            case 3:
+                holder.txtType.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_filter_vintage_black_24dp), null ,null, null);
+                break;
+
+
+        }
+
+        if(itemList.getProgress()==-1){
+            holder.progressBar.setProgress(0);
+            holder.percent.setText("-%");
+        }else if(itemList.getProgress()==0){
+            holder.progressBar.setProgress(0);
+            holder.percent.setText("0%");
+        }else{
+            holder.progressBar.setProgress(itemList.getProgress());
+            holder.percent.setText(itemList.getProgress() + "%");
+            holder.star.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_star_black_24dp));
+        }
        //Запускает асинхронную загрузку изображения
 
         View.OnClickListener clickListener = new View.OnClickListener() {
@@ -86,6 +112,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         TextView percent;
         TextView date;
         CircleImageView imgPhoto;
+        ImageView star;
         ProgressBar progressBar;
 
         ViewHolder(View itemView) {
@@ -96,6 +123,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             progressBar = (ProgressBar)itemView.findViewById(R.id.progressBar);
             percent = (TextView)itemView.findViewById(R.id.percent);
             date = (TextView)itemView.findViewById(R.id.date);
+            star = (ImageView)itemView.findViewById(R.id.star);
         }
     }
 

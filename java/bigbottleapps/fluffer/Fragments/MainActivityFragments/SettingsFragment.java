@@ -12,7 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import bigbottleapps.fluffer.CityFragment;
+import bigbottleapps.fluffer.Controllers.SendTextActivity;
+import bigbottleapps.fluffer.Fragments.CityFragment;
 import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.Controllers.RegisterOrLogInActivity;
 import bigbottleapps.fluffer.R;
@@ -77,7 +78,7 @@ public class SettingsFragment extends Fragment {
         sendmsgtB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).setSendTextFragment();
+                startActivity(new Intent(getActivity().getApplicationContext(), SendTextActivity.class));
             }
         });
 

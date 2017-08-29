@@ -1,4 +1,4 @@
-package bigbottleapps.fluffer.Fragments.MainActivityFragments;
+package bigbottleapps.fluffer.Controllers;
 
 
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ import java.net.URLEncoder;
 import bigbottleapps.fluffer.Controllers.MainActivity;
 import bigbottleapps.fluffer.R;
 
-public class SendTextFragment extends Fragment {
+public class SendTextActivity extends AppCompatActivity {
 
     private HttpURLConnection conn;
     private int res;
@@ -39,21 +40,19 @@ public class SendTextFragment extends Fragment {
         return true;
     }
 
-    private void ShowToast(String text, Context context){
-        int duration = Toast.LENGTH_LONG;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+    private void ShowToast(String text){
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_send_message, container, false);
-        mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_send_message);
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
-        final Button sendB = (Button)view.findViewById(R.id.send);
-        final TextView textTV = (TextView) view.findViewById(R.id.text);
+        final Button sendB = (Button)findViewById(R.id.send);
+        final TextView textTV = (TextView) findViewById(R.id.text);
 
         sendB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +63,7 @@ public class SendTextFragment extends Fragment {
                     login = mSettings.getString(APP_PREFERENCES_LOE, "");
 
                 if (!CheckMessage(message)){
-                    ShowToast(getResources().getString(R.string.short_msg), getContext());
+                    ShowToast(getResources().getString(R.string.short_msg));
                     return;
                 }
                 message += "\n\nUser login:" + login;
@@ -72,18 +71,17 @@ public class SendTextFragment extends Fragment {
             }
         });
 
-        return view;
     }
 
     private class MESSAGE_SEND extends AsyncTask<Void, Void, Integer> {
         @Override
         protected void onPostExecute(Integer integer) {
             if (res == 200) {
-                ShowToast(getResources().getString(R.string.msg_send_sucs), getContext());
-                ((MainActivity)getActivity()).setSettingsFragment();
+                ShowToast(getResources().getString(R.string.msg_send_sucs));
+                finish();
             }
             else
-                ShowToast(getResources().getString(R.string.something_wrong), getContext());
+                ShowToast(getResources().getString(R.string.something_wrong));
         }
 
         protected Integer doInBackground(Void... params) {

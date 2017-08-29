@@ -5,13 +5,15 @@
     <color name="colorAccent">#0d00ff</color>
     <color name="red_wrong">#f00</color>
     <color name="good">#bbb</color>
-    <color name="background_color">#666</color>
+    <color name="background_color">#ffffff</color>
     <color name="recycler_item">#555</color>
     <color name="blue">#00fff2</color>
     <color name="progress_bar">#ffa000</color>
     <color name="progress_bar_dark">#44e65100</color>
     <color name="selected">#ffa000</color>
     <color name="non_selected">#ffffff</color>
-    <color name="text_color">#fff</color>
+    <color name="text_color">#757575</color>
+    <color name="text_color_2">#c2f15322</color>
+    <color name="text_color_3">#000</color>
     <color name="text_hint">#aaffffff</color>
 </resources>
