@@ -1,6 +1,7 @@
 package bigbottleapps.fluffer.Controllers;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +42,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -49,6 +53,8 @@ import java.util.Map;
 
 import bigbottleapps.fluffer.R;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+
 
 public class AddingNewActionActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -72,6 +78,14 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
     public static final String APP_PREFERENCES_LTD = "ltd";
     private String lng, ltd;
     private boolean placeFlag = false;
+
+
+    //For choose image
+    Intent CamIntent, GalIntent, CropIntent;
+    File file;
+    Uri uri;
+    AlertDialog alertDialog;
+
 
     @Override
     protected void onResume(){
@@ -109,11 +123,14 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
         finish();
     }
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.imageView:
                 selectImage();
+
                 break;
             case R.id.uploadBn:
                 new LOGGING().execute();
@@ -121,23 +138,95 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
         }
     }
 
+    private void selectImage(){
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.activity_crop_image,
+                (ViewGroup)findViewById(R.id.toast_layout));
 
-    @Override
+        ImageView cameraIV = (ImageView)layout.findViewById(R.id.btn_camera);
+        ImageView galleryIV = (ImageView)layout.findViewById(R.id.btn_gallery);
+
+        cameraIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CameraOpen();
+            }
+        });
+
+        galleryIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GalleryOpen();
+            }
+        });
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setNegativeButton(getResources().getString(R.string.cancel), null);
+
+
+        builder.setView(layout);
+
+        alertDialog  = builder.create();
+        alertDialog.show();
+
+    }
+
+    private void CameraOpen(){
+        CamIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        file = new File(Environment.getExternalStorageDirectory(), "file" + String.valueOf(System.currentTimeMillis()) +".jpg");
+        uri = Uri.fromFile(file);
+        CamIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        CamIntent.putExtra("return-data", true);
+        startActivityForResult(CamIntent, 0);
+    }
+
+    private void GalleryOpen(){
+        GalIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(GalIntent, "Select Image from Gallery"), 2 );
+    }
+
+    private void CropImage(){
+        try{
+            CropIntent = new Intent("com.android.camera.action.CROP");
+            CropIntent.setDataAndType(uri, "image/*");
+
+            CropIntent.putExtra("crop", "true");
+            CropIntent.putExtra("outputX", 200);
+            CropIntent.putExtra("outputY", 200);
+
+            CropIntent.putExtra("aspectX", 3);
+            CropIntent.putExtra("aspectY", 3);
+            CropIntent.putExtra("return-data", true);
+
+            startActivityForResult(CropIntent, 1);
+        }
+        catch (ActivityNotFoundException ex){
+        }
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==IMG_REQUEST && resultCode == RESULT_OK && data != null){
-            Uri path = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), path);
-                mImageView.setImageBitmap(bitmap);
-                mImageView.setSystemUiVisibility(View.VISIBLE);
-                mImageView.setVisibility(View.VISIBLE);
-                mUploadBn.setVisibility(View.VISIBLE);
-                mTitle.setVisibility(View.VISIBLE);
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (requestCode == 0 && resultCode == RESULT_OK)
+            CropImage();
+        else if (requestCode == 2)
+        {
+            if (data != null)
+            {
+                uri = data.getData();
+                CropImage();
             }
         }
+        else if(requestCode == 1)
+        {
+            if (data != null)
+            {
+                Bundle bundle = data.getExtras();
+                Bitmap bitmap = bundle.getParcelable("data");
+                mImageView.setImageBitmap(bitmap);
+                alertDialog.dismiss();
+            }
+        }
+
     }
 
     private void InitializeUI(){
@@ -216,12 +305,7 @@ public class AddingNewActionActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void selectImage(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, IMG_REQUEST);
-    }
+
 
     private void uploadImage(){
         String mUploadUrl = mServerUrl+"ImageUpload.php";

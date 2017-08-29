@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,19 @@ public class ForgetFragment extends Fragment {
         return view;
     }
 
+    private void ShowToast(String text, Context context){
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+    private boolean CheckPassword(String password){
+        if (password.length() < 6)
+            return false;
+        return true;
+    }
+
     public void Initialization(View view){
         loginOrEmailET = (EditText)view.findViewById(R.id.loginoremailETF);
         loginOrEmailET.setVisibility(View.INVISIBLE);
@@ -65,7 +79,10 @@ public class ForgetFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 new_password = newPasswordET.getText().toString();
-                new NEWPASSWORD().execute();
+                if (!CheckPassword(new_password))
+                    ShowToast(getResources().getString(R.string.wrong_pass), getContext());
+                else
+                    new NEWPASSWORD().execute();
             }
         };
         continueB.setOnClickListener(btnClickListener);
