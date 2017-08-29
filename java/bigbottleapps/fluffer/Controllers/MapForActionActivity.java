@@ -31,7 +31,7 @@ public class MapForActionActivity extends FragmentActivity implements OnMapReady
         mMap = googleMap;
         String geo[] = getIntent().getExtras().getString("place").split(" ");
         LatLng latlng = new LatLng(Double.parseDouble(geo[1]), Double.parseDouble(geo[0]));
-        mMap.addMarker(new MarkerOptions().position(latlng).title("Marker in Sydney"));
+        mMap.addMarker(new MarkerOptions().position(latlng).title(getIntent().getExtras().getString("title")));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 14));
     }
 }

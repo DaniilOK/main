@@ -72,6 +72,7 @@ public class ActionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MapForActionActivity.class);
+                intent.putExtra("title", title.getText().toString());
                 intent.putExtra("place", place);
                 startActivity(intent);
             }
